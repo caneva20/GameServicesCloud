@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.Accounts", "GameServicesCloud.Accounts\GameServicesCloud.Accounts.csproj", "{00405958-D20B-40EE-AA52-27A7DC3BA0FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.Data", "GameServicesCloud.Data\GameServicesCloud.Data.csproj", "{DDEE60B6-6630-4A61-A29C-6DC2D99F657E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.Accounts.Data", "GameServicesCloud.Accounts.Data\GameServicesCloud.Accounts.Data.csproj", "{D04BCE76-C4B4-4AF6-93F5-37868825C1D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +14,9 @@ Global
 		{00405958-D20B-40EE-AA52-27A7DC3BA0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00405958-D20B-40EE-AA52-27A7DC3BA0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00405958-D20B-40EE-AA52-27A7DC3BA0FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDEE60B6-6630-4A61-A29C-6DC2D99F657E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDEE60B6-6630-4A61-A29C-6DC2D99F657E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDEE60B6-6630-4A61-A29C-6DC2D99F657E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDEE60B6-6630-4A61-A29C-6DC2D99F657E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D04BCE76-C4B4-4AF6-93F5-37868825C1D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D04BCE76-C4B4-4AF6-93F5-37868825C1D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D04BCE76-C4B4-4AF6-93F5-37868825C1D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D04BCE76-C4B4-4AF6-93F5-37868825C1D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
