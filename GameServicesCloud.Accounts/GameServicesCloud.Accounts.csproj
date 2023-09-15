@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>b164bb08-40a3-4188-9f31-4242c8e3a785</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,5 +26,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\GameServicesCloud.Accounts.Data\GameServicesCloud.Accounts.Data.csproj" />
+      <ProjectReference Include="..\GameServicesCloud.Shared\GameServicesCloud.Shared.csproj" />
     </ItemGroup>
 </Project>

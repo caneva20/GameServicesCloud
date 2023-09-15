@@ -1,15 +1,14 @@
+using GameServicesCloud;
 using GameServicesCloud.Accounts;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddData(builder.Configuration.GetConnectionString("DefaultConnection")!);
+builder.Services.AddSharedServices(builder.Configuration.GetSection("Mail"));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddData(builder.Configuration.GetConnectionString("DefaultConnection")!);
 
 var app = builder.Build();
 
