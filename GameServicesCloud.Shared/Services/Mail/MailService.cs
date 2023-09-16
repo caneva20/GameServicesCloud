@@ -22,7 +22,6 @@ public class MailService : IMailService {
         _logger.LogInformation("Sending mail to {To}", to);
 
         try {
-
             await client.ConnectAsync(_options.Host, _options.Port);
             await client.AuthenticateAsync(_options.Login, _options.Password);
 
@@ -34,9 +33,9 @@ public class MailService : IMailService {
                     Text = htmlBody
                 }
             });
-        
+
             _logger.LogInformation("Mail to {To} finished with {Response}", to, response);
-            
+
             await client.DisconnectAsync(true);
         } catch (Exception e) {
             _logger.LogError(e, "Sending mail to {To} failed", to);
