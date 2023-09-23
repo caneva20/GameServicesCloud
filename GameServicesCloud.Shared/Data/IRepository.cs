@@ -17,5 +17,5 @@ public interface IRepository<T> where T : IEntity {
 
     public Task<T> Save(T entity);
 
-    public Task SaveAll(IEnumerable<T> entity);
+    public Task SaveAll(IEnumerable<T> entities);
 }
