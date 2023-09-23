@@ -1,13 +1,12 @@
 ﻿using System.Text;
 
-namespace GameServicesCloud; 
+namespace GameServicesCloud;
 
 public class TokenService : ITokenService {
-    public string? GenerateToken(int length, string characters = ITokenService.Numeric) {
+    public string GenerateToken(int length, string characters = ITokenService.Numeric) {
         var sb = new StringBuilder();
 
-        for (var i = 0; i < length; i++)
-        {
+        for (var i = 0; i < length; i++) {
             var randomChar = characters[Random.Shared.Next(characters.Length)];
             sb.Append(randomChar);
         }
