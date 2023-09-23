@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.Shared", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.Shared.Abstractions", "GameServicesCloud.Shared.Abstractions\GameServicesCloud.Shared.Abstractions.csproj", "{9C39380D-2566-4B09-98B8-9B96E0D454A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.Accounts.Abstractions", "GameServicesCloud.Accounts.Abstractions\GameServicesCloud.Accounts.Abstractions.csproj", "{D31BBF24-19C5-4E14-A123-F44E85FC9B19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{9C39380D-2566-4B09-98B8-9B96E0D454A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C39380D-2566-4B09-98B8-9B96E0D454A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C39380D-2566-4B09-98B8-9B96E0D454A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D31BBF24-19C5-4E14-A123-F44E85FC9B19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D31BBF24-19C5-4E14-A123-F44E85FC9B19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D31BBF24-19C5-4E14-A123-F44E85FC9B19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D31BBF24-19C5-4E14-A123-F44E85FC9B19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

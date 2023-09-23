@@ -25,6 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\GameServicesCloud.Accounts.Abstractions\GameServicesCloud.Accounts.Abstractions.csproj" />
       <ProjectReference Include="..\GameServicesCloud.Accounts.Data\GameServicesCloud.Accounts.Data.csproj" />
       <ProjectReference Include="..\GameServicesCloud.Shared\GameServicesCloud.Shared.csproj" />
     </ItemGroup>

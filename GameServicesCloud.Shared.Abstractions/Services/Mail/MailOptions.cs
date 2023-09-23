@@ -1,4 +1,4 @@
-﻿namespace GameServicesCloud.Abstractions.Mail; 
+﻿namespace GameServicesCloud.Mail; 
 
 public class MailOptions {
     public string Host { get; set; } = null!;
