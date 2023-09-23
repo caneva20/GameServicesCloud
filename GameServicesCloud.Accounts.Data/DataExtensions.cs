@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GameServicesCloud.Accounts.Repositories;
+using GameServicesCloud.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GameServicesCloud.Accounts;
@@ -8,5 +10,7 @@ public static class AccountDataExtensions {
         services.AddDbContext<DbContext, AccountsDbContext>(options => {
             options.UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(AccountDataExtensions).Assembly.FullName));
         });
+
+        services.AddScoped<IRepository<UserToken>, UserTokenRepository>();
     }
 }

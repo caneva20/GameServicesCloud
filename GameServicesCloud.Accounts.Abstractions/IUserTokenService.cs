@@ -1,5 +1,5 @@
 ﻿namespace GameServicesCloud.Accounts;
 
 public interface IUserTokenService {
-    Task<string?> GenerateToken(User user);
+    Task<UserToken?> GenerateToken(User user);
 }
