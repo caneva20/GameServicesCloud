@@ -1,4 +1,4 @@
-﻿namespace GameServicesCloud.Accounts; 
+﻿namespace GameServicesCloud.Accounts;
 
 public class UserTokenOptions {
     public int MaxRetries { get; set; }

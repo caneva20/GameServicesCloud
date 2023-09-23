@@ -8,9 +8,8 @@
     </PropertyGroup>
 
 
-
     <ItemGroup>
-      <ProjectReference Include="..\GameServicesCloud.Accounts.Data\GameServicesCloud.Accounts.Data.csproj" />
+        <ProjectReference Include="..\GameServicesCloud.Accounts.Data\GameServicesCloud.Accounts.Data.csproj"/>
     </ItemGroup>
 
 </Project>
