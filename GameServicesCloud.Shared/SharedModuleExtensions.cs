@@ -11,5 +11,6 @@ public static class SharedModuleExtensions {
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddSingleton<IMailService, MailService>();
+        services.AddSingleton<ITokenService, TokenService>();
     }
 }
