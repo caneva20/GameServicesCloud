@@ -1,5 +1,7 @@
-﻿namespace GameServicesCloud.Accounts; 
+﻿using GameServicesCloud.Data;
 
-public class User {
+namespace GameServicesCloud.Accounts;
+
+public class User : IEntity {
     public long Id { get; set; }
 }
