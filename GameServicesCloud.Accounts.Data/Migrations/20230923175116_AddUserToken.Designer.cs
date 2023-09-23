@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameServicesCloud.Accounts.Migrations
 {
     [DbContext(typeof(AccountsDbContext))]
-    [Migration("20230916191405_AddUserToken")]
+    [Migration("20230923175116_AddUserToken")]
     partial class AddUserToken
     {
         /// <inheritdoc />
