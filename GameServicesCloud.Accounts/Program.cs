@@ -6,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddData(builder.Configuration.GetConnectionString("DefaultConnection")!);
 builder.Services.AddSharedServices(builder.Configuration.GetSection("Mail"));
 
+builder.Services.Configure<UserTokenOptions>(builder.Configuration.GetSection("UserTokens"));
+builder.Services.AddTransient<IUserTokenService, UserTokenService>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
