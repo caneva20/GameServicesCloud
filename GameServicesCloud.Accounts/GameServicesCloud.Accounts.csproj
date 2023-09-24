@@ -30,4 +30,10 @@
         <ProjectReference Include="..\GameServicesCloud.Accounts.Data\GameServicesCloud.Accounts.Data.csproj"/>
         <ProjectReference Include="..\GameServicesCloud.Shared\GameServicesCloud.Shared.csproj"/>
     </ItemGroup>
+
+    <ItemGroup>
+        <None Update="HtmlTemplates\EmailVerification.html">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 </Project>

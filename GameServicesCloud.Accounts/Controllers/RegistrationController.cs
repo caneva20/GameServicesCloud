@@ -31,6 +31,18 @@ public class RegistrationController : ControllerBase {
             return BadRequest("Failed to register user");
         }
 
-        return Created("TBD", registeredUser);
+        var verificationEndpoint = _userService.SendVerificationEmail(registeredUser,
+            (email, verificationCode) => Url.Action("Verify",
+                "Registration",
+                new { email, verificationCode },
+                HttpContext.Request.Scheme,
+                HttpContext.Request.Host.Value)!);
+
+        return Created(verificationEndpoint, registeredUser);
+    }
+
+    [HttpGet("Verify")]
+    public IActionResult Verify([FromQuery] string email, [FromQuery] string verificationCode) {
+        return Ok();
     }
 }

@@ -4,7 +4,7 @@ using GameServicesCloud.Accounts;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddData(builder.Configuration.GetConnectionString("DefaultConnection")!);
-builder.Services.AddSharedServices(builder.Configuration.GetSection("Mail"));
+builder.Services.AddSharedServices(builder.Configuration.GetSection("Mail"), builder.Configuration.GetSection("MailTemplates"));
 
 builder.Services.Configure<UserTokenOptions>(builder.Configuration.GetSection("UserTokens"));
 builder.Services.Configure<EmailVerificationOptions>(builder.Configuration.GetSection("EmailVerification"));

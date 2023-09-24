@@ -6,10 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace GameServicesCloud;
 
 public static class SharedModuleExtensions {
-    public static void AddSharedServices(this IServiceCollection services, IConfiguration configuration) {
-        services.Configure<MailOptions>(configuration);
+    public static void AddSharedServices(this IServiceCollection services, IConfiguration mailOptions, IConfiguration templateOptions) {
+        services.Configure<MailOptions>(mailOptions);
+        services.Configure<MailTemplateOptions>(templateOptions);
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddSingleton<IMailTemplateService, MailTemplateService>();
         services.AddSingleton<IMailService, MailService>();
         services.AddSingleton<ITokenService, TokenService>();
     }
