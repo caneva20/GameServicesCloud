@@ -7,7 +7,10 @@ builder.Services.AddData(builder.Configuration.GetConnectionString("DefaultConne
 builder.Services.AddSharedServices(builder.Configuration.GetSection("Mail"));
 
 builder.Services.Configure<UserTokenOptions>(builder.Configuration.GetSection("UserTokens"));
+builder.Services.Configure<EmailVerificationOptions>(builder.Configuration.GetSection("EmailVerification"));
+
 builder.Services.AddTransient<IUserTokenService, UserTokenService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
