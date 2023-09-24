@@ -19,7 +19,7 @@ public class UserTokenService : IUserTokenService {
         _options = options.Value;
     }
 
-    public async Task<string?> GenerateToken(User user) {
+    public async Task<UserToken?> GenerateToken(User user) {
         var tries = _options.MaxRetries;
 
         while (tries-- > 0) {
@@ -29,9 +29,7 @@ public class UserTokenService : IUserTokenService {
                 continue;
             }
 
-            await SaveToken(user, token);
-
-            return token;
+            return await SaveToken(user, token);
         }
 
         _logger.LogWarning("Failed to generate token for user {UserId} after {Retries} tries", user.Id, _options.MaxRetries);
@@ -39,12 +37,14 @@ public class UserTokenService : IUserTokenService {
         return null;
     }
 
-    private async Task SaveToken(User user, string? token) {
-        await _userTokenRepository.Save(new UserToken {
+    private async Task<UserToken> SaveToken(User user, string token) {
+        var userToken = await _userTokenRepository.Save(new UserToken {
             User = user,
             Token = token
         });
 
         _logger.LogDebug("New token generated for user {UserId}", user.Id);
+
+        return userToken;
     }
 }
