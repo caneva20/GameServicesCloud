@@ -31,18 +31,18 @@ public class RegistrationController : ControllerBase {
             return BadRequest("Failed to register user");
         }
 
-        var verificationEndpoint = _userService.SendVerificationEmail(registeredUser,
-            (email, verificationCode) => Url.Action("Verify",
+        var verificationEndpoint = _userService.SendActivationEmail(registeredUser,
+            (email, activationCode) => Url.Action("Activate",
                 "Registration",
-                new { email, verificationCode },
+                new { email, activationCode },
                 HttpContext.Request.Scheme,
                 HttpContext.Request.Host.Value)!);
 
         return Created(verificationEndpoint, registeredUser);
     }
 
-    [HttpGet("Verify")]
-    public IActionResult Verify([FromQuery] string email, [FromQuery] string verificationCode) {
+    [HttpGet("Activate")]
+    public IActionResult Activate([FromQuery] string email, [FromQuery] string activationCode) {
         return Ok();
     }
 }

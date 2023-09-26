@@ -7,7 +7,7 @@ builder.Services.AddData(builder.Configuration.GetConnectionString("DefaultConne
 builder.Services.AddSharedServices(builder.Configuration.GetSection("Mail"), builder.Configuration.GetSection("MailTemplates"));
 
 builder.Services.Configure<UserTokenOptions>(builder.Configuration.GetSection("UserTokens"));
-builder.Services.Configure<EmailVerificationOptions>(builder.Configuration.GetSection("EmailVerification"));
+builder.Services.Configure<AccountActivationOptions>(builder.Configuration.GetSection("AccountActivation"));
 
 builder.Services.AddTransient<IUserTokenService, UserTokenService>();
 builder.Services.AddTransient<IUserService, UserService>();

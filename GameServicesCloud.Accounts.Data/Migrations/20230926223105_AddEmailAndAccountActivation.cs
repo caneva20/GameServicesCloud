@@ -6,56 +6,56 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GameServicesCloud.Accounts.Migrations
 {
     /// <inheritdoc />
-    public partial class AddEmailToUser : Migration
+    public partial class AddEmailAndAccountActivation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<DateTime>(
+                name: "ActivatedAt",
+                table: "Users",
+                type: "datetime2",
+                nullable: true);
+
             migrationBuilder.AddColumn<string>(
-                name: "Email",
+                name: "ActivationCode",
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
-                name: "EmailVerificationCode",
+                name: "Email",
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<bool>(
-                name: "HasVerifiedEmail",
+                name: "IsActivated",
                 table: "Users",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "VerifiedAt",
-                table: "Users",
-                type: "datetime2",
-                nullable: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
+                name: "ActivatedAt",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "ActivationCode",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
                 name: "Email",
                 table: "Users");
 
             migrationBuilder.DropColumn(
-                name: "EmailVerificationCode",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "HasVerifiedEmail",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "VerifiedAt",
+                name: "IsActivated",
                 table: "Users");
         }
     }

@@ -11,11 +11,11 @@ public class UserService : IUserService {
     private readonly IMailService _mailService;
     private readonly IMailTemplateService _mailTemplateService;
 
-    private readonly EmailVerificationOptions _verificationOptions;
+    private readonly AccountActivationOptions _activationOptions;
 
     public UserService(ILogger<UserService> logger,
         ITokenService tokenService,
-        IOptions<EmailVerificationOptions> verificationOptions,
+        IOptions<AccountActivationOptions> verificationOptions,
         IRepository<User> userRepository,
         IMailService mailService,
         IMailTemplateService mailTemplateService) {
@@ -24,7 +24,7 @@ public class UserService : IUserService {
         _userRepository = userRepository;
         _mailService = mailService;
         _mailTemplateService = mailTemplateService;
-        _verificationOptions = verificationOptions.Value;
+        _activationOptions = verificationOptions.Value;
     }
 
     public Task<bool> IsRegistered(string email) {
@@ -39,8 +39,8 @@ public class UserService : IUserService {
             return null;
         }
 
-        user.HasVerifiedEmail = false;
-        user.EmailVerificationCode = GenerateVerificationCode();
+        user.IsActivated = false;
+        user.ActivationCode = GenerateActivationCode();
 
         var newUser = await _userRepository.Save(user);
 
@@ -49,21 +49,21 @@ public class UserService : IUserService {
         return newUser;
     }
 
-    public string SendVerificationEmail(User user, Func<string, string, string> endpointBuilder) {
-        var verificationEndpoint = endpointBuilder(user.Email, user.EmailVerificationCode);
+    public string SendActivationEmail(User user, Func<string, string, string> endpointBuilder) {
+        var activationEndpoint = endpointBuilder(user.Email, user.ActivationCode);
 
-        var mailBody = _mailTemplateService.Load(_verificationOptions.TemplateName,
+        var mailBody = _mailTemplateService.Load(_activationOptions.TemplateName,
             new Dictionary<string, string> {
                 { "EMAIL", user.Email },
-                { "VERIFICATION_LINK", verificationEndpoint }
+                { "ACTIVATION_LINK", activationEndpoint }
             })!;
 
-        _mailService.SendMail(user.Email, _verificationOptions.EmailSubject, mailBody);
+        _mailService.SendMail(user.Email, _activationOptions.EmailSubject, mailBody);
 
-        return verificationEndpoint;
+        return activationEndpoint;
     }
 
-    private string GenerateVerificationCode() {
-        return _tokenService.GenerateToken(_verificationOptions.TokenLength, _verificationOptions.TokenCharacters);
+    private string GenerateActivationCode() {
+        return _tokenService.GenerateToken(_activationOptions.TokenLength, _activationOptions.TokenCharacters);
     }
 }

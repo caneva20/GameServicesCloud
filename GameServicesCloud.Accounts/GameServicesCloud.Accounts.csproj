@@ -32,7 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="HtmlTemplates\EmailVerification.html">
+        <None Update="HtmlTemplates\AccountActivation.html">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
