@@ -48,6 +48,20 @@ public class Repository<T> : IRepository<T> where T : class, IEntity {
         await _context.SaveChangesAsync();
     }
 
+    public virtual async Task<T> Update(T entity) {
+        var entry = _context.Update(entity);
+
+        await _context.SaveChangesAsync();
+
+        return entry.Entity;
+    }
+
+    public virtual async Task UpdateAll(IEnumerable<T> entities) {
+        _context.UpdateRange(entities);
+
+        await _context.SaveChangesAsync();
+    }
+
     protected virtual IQueryable<T> Query(TrackingBehaviour behaviour) {
         return behaviour switch {
             TrackingBehaviour.Tracking => _context.Set<T>().AsTracking(),

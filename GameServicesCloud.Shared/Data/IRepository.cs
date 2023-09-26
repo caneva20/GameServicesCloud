@@ -18,4 +18,8 @@ public interface IRepository<T> where T : IEntity {
     public Task<T> Save(T entity);
 
     public Task SaveAll(IEnumerable<T> entities);
+
+    public Task<T> Update(T entity);
+
+    public Task UpdateAll(IEnumerable<T> entities);
 }
