@@ -42,7 +42,19 @@ public class RegistrationController : ControllerBase {
     }
 
     [HttpGet("Activate")]
-    public IActionResult Activate([FromQuery] string email, [FromQuery] string activationCode) {
-        return Ok();
+    public async Task<IActionResult> Activate([FromQuery] string email, [FromQuery] string activationCode) {
+        var user = await _userService.Find(email);
+
+        if (user == null) {
+            return NotFound();
+        }
+
+        var accountActivated = await _userService.ActivateAccount(user, activationCode);
+
+        if (accountActivated) {
+            return Ok("Account activated");
+        }
+
+        return BadRequest();
     }
 }

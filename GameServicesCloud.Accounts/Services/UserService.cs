@@ -27,6 +27,14 @@ public class UserService : IUserService {
         _activationOptions = verificationOptions.Value;
     }
 
+    public Task<User?> Find(string email) {
+        return _userRepository.Find(x => x.Email == email);
+    }
+
+    public Task<User?> Find(long id) {
+        return _userRepository.Find(id);
+    }
+
     public Task<bool> IsRegistered(string email) {
         return _userRepository.Exists(x => x.Email == email);
     }
@@ -61,6 +69,21 @@ public class UserService : IUserService {
         _mailService.SendMail(user.Email, _activationOptions.EmailSubject, mailBody);
 
         return activationEndpoint;
+    }
+
+    public async Task<bool> ActivateAccount(User user, string activationCode) {
+        if (user.ActivationCode != activationCode) {
+            return false;
+        }
+
+        user.IsActivated = true;
+        user.ActivatedAt = DateTime.UtcNow;
+
+        await _userRepository.Update(user);
+
+        _logger.LogInformation("User {UserMail} activated", user.Email);
+
+        return true;
     }
 
     private string GenerateActivationCode() {
