@@ -8,9 +8,13 @@ builder.Services.AddSharedServices(builder.Configuration.GetSection("Mail"), bui
 
 builder.Services.Configure<UserTokenOptions>(builder.Configuration.GetSection("UserTokens"));
 builder.Services.Configure<AccountActivationOptions>(builder.Configuration.GetSection("AccountActivation"));
+builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Auth"));
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JWT"));
 
 builder.Services.AddTransient<IUserTokenService, UserTokenService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IJwtService, JwtService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
