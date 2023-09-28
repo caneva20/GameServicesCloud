@@ -5,6 +5,6 @@ public interface IUserService {
     Task<User?> RegisterUser(User user);
     string SendActivationEmail(User user, Func<string, string, string> endpointBuilder);
     Task<bool> ActivateAccount(User user, string activationCode);
-    Task<User?> Find(string email);
-    Task<User?> Find(long id);
+    Task<User?> Find(string email, bool allowInactive = false);
+    Task<User?> Find(long id, bool allowInactive = false);
 }

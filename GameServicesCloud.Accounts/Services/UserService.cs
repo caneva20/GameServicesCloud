@@ -27,12 +27,12 @@ public class UserService : IUserService {
         _activationOptions = verificationOptions.Value;
     }
 
-    public Task<User?> Find(string email) {
-        return _userRepository.Find(x => x.Email == email);
+    public Task<User?> Find(string email, bool allowInactive = false) {
+        return _userRepository.Find(x => x.Email == email && (allowInactive || x.IsActivated));
     }
 
-    public Task<User?> Find(long id) {
-        return _userRepository.Find(id);
+    public Task<User?> Find(long id, bool allowInactive = false) {
+        return _userRepository.Find(x => x.Id == id && (allowInactive || x.IsActivated));
     }
 
     public Task<bool> IsRegistered(string email) {

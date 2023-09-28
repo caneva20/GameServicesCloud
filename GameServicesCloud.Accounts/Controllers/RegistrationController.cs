@@ -43,7 +43,7 @@ public class RegistrationController : ControllerBase {
 
     [HttpGet("Activate")]
     public async Task<IActionResult> Activate([FromQuery] string email, [FromQuery] string activationCode) {
-        var user = await _userService.Find(email);
+        var user = await _userService.Find(email, true);
 
         if (user == null) {
             return NotFound();
