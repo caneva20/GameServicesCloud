@@ -19,6 +19,14 @@ public class UserTokenService : IUserTokenService {
         _options = options.Value;
     }
 
+    public Task<UserToken?> Find(User user, string token) {
+        return _userTokenRepository.Find(x => x.User == user && x.Token == token);
+    }
+
+    public Task Delete(UserToken token) {
+        return _userTokenRepository.Remove(token);
+    }
+
     public async Task<UserToken?> GenerateToken(User user) {
         var tries = _options.MaxRetries;
 
