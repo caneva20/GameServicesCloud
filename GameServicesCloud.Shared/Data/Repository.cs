@@ -62,6 +62,18 @@ public class Repository<T> : IRepository<T> where T : class, IEntity {
         await _context.SaveChangesAsync();
     }
 
+    public async Task Remove(T entity) {
+        _context.Remove(entity);
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task RemoveAll(IEnumerable<T> entities) {
+        _context.RemoveRange(entities);
+
+        await _context.SaveChangesAsync();
+    }
+
     protected virtual IQueryable<T> Query(TrackingBehaviour behaviour) {
         return behaviour switch {
             TrackingBehaviour.Tracking => _context.Set<T>().AsTracking(),

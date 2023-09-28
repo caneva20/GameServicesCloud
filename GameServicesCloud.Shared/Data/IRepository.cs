@@ -3,23 +3,27 @@
 namespace GameServicesCloud.Data;
 
 public interface IRepository<T> where T : IEntity {
-    public Task<List<T>> FindAll(TrackingBehaviour behaviour = TrackingBehaviour.NoTracking);
+    Task<List<T>> FindAll(TrackingBehaviour behaviour = TrackingBehaviour.NoTracking);
 
-    public Task<List<T>> FindAll(Expression<Func<T, bool>> predicate, TrackingBehaviour behaviour = TrackingBehaviour.NoTracking);
+    Task<List<T>> FindAll(Expression<Func<T, bool>> predicate, TrackingBehaviour behaviour = TrackingBehaviour.NoTracking);
 
-    public Task<T?> Find(Expression<Func<T, bool>> predicate, TrackingBehaviour behaviour = TrackingBehaviour.Tracking);
+    Task<T?> Find(Expression<Func<T, bool>> predicate, TrackingBehaviour behaviour = TrackingBehaviour.Tracking);
 
-    public Task<T?> Find(long id, TrackingBehaviour behaviour = TrackingBehaviour.Tracking);
+    Task<T?> Find(long id, TrackingBehaviour behaviour = TrackingBehaviour.Tracking);
 
-    public Task<bool> Exists(Expression<Func<T, bool>> predicate);
+    Task<bool> Exists(Expression<Func<T, bool>> predicate);
 
-    public Task<bool> Exists(long id);
+    Task<bool> Exists(long id);
 
-    public Task<T> Save(T entity);
+    Task<T> Save(T entity);
 
-    public Task SaveAll(IEnumerable<T> entities);
+    Task SaveAll(IEnumerable<T> entities);
 
-    public Task<T> Update(T entity);
+    Task<T> Update(T entity);
 
-    public Task UpdateAll(IEnumerable<T> entities);
+    Task UpdateAll(IEnumerable<T> entities);
+
+    Task Remove(T entity);
+
+    Task RemoveAll(IEnumerable<T> entities);
 }
