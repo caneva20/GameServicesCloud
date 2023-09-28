@@ -31,7 +31,7 @@ public class AuthController : ControllerBase {
         return Ok();
     }
 
-    [HttpPost("/Token")]
+    [HttpPost("Token")]
     public async Task<ActionResult<AuthTokenDto>> FinishLogin([FromBody] AuthLoginRequestDto request) {
         var user = await _userService.Find(request.Email);
 
