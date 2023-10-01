@@ -14,7 +14,7 @@ public class AuthStateProvider : AuthenticationStateProvider {
     public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
         var currentLogin = await _authService.CurrentLogin;
 
-        if (currentLogin == null) {
+        if (currentLogin == null || DateTime.UtcNow >= currentLogin.ExpirationTime) {
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
