@@ -1,0 +1,65 @@
+﻿@page "/login"
+@using GameServicesCloud.UI.Services.Auth
+@layout AuthLayout
+@inject NavigationManager Navigation
+@inject AuthStateProvider Auth
+
+<h1 class="h2 font-weight-normal login-title">
+    Login
+</h1>
+
+<EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="_loginRequest">
+    <DataAnnotationsValidator/>
+    @if (!_hasToken) {
+        <label for="inputUsername" class="sr-only">E-mail</label>
+        <InputText type="Email" id="inputUsername" class="form-control" @bind-Value="                _loginRequest.Email" autofocus placeholder="me@example.com"/>
+        <ValidationMessage For="@(() => _loginRequest.Email)"/>
+    } else {
+        <label for="inputPassword" class="sr-only">Token</label>
+        <InputText type="text" id="inputPassword" class="form-control" placeholder="Token" @bind-Value="                _loginRequest.LoginToken"/>
+        <ValidationMessage For="@(() => _loginRequest.LoginToken)"/>
+    }
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+    @if (_loading) {
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+
+    <label class="text-danger">@_error</label>
+
+    <br/>
+
+    <NavLink href="register">
+        <h6 class="font-weight-normal text-center">Create account</h6>
+    </NavLink>
+</EditForm>
+
+@code {
+    readonly LoginRequest _loginRequest = new();
+    string? _error;
+    bool _hasToken;
+    bool _loading;
+
+    async Task OnSubmit() {
+        _error = null;
+        _loading = true;
+
+        try {
+            if (!_hasToken) {
+                await Auth.GetToken(_loginRequest.Email);
+                _hasToken = true;
+            } else {
+                await Auth.Login(_loginRequest);
+                Navigation.NavigateTo("");
+            }
+        } catch (Exception e) {
+            _error = e.Message;
+        }
+
+        _loading = false;
+    }
+
+}

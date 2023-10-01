@@ -1,0 +1,42 @@
+﻿@using GameServicesCloud.UI.Services.Auth
+@inherits LayoutComponentBase
+
+@inject NavigationManager Navigation
+@inject AuthStateProvider Auth
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu/>
+    </div>
+
+    <main>
+        <div class="top-row px-4 auth">
+            <LoginDisplay/>
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+
+            <button class="btn btn-link ml-md-auto" @onclick="Logout">Logout</button>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    protected override async Task OnParametersSetAsync() {
+        if (!(await AuthenticationState).User.Identity.IsAuthenticated) {
+            Navigation.NavigateTo("/login");
+        }
+    }
+
+    private async Task Logout() {
+        await Auth.Logout();
+        Navigation.NavigateTo("/login");
+    }
+
+}
