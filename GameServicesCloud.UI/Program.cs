@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using GameServicesCloud.UI;
 using GameServicesCloud.UI.HttpsClients;
 using GameServicesCloud.UI.Services.Auth;
@@ -13,9 +14,11 @@ builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(services => services.GetRequiredService<AuthStateProvider>());
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddSingleton<IAuthService, AuthService>();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddHttpClient<AccountsHttpClient>(client => client.BaseAddress = new Uri(builder.Configuration["Backend:AccountsBaseUrl"]!));
+
+builder.Services.AddBlazoredLocalStorageAsSingleton();
 
 await builder.Build().RunAsync();

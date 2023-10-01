@@ -12,12 +12,14 @@ public class AuthStateProvider : AuthenticationStateProvider {
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
-        if (_authService.CurrentLogin == null) {
+        var currentLogin = await _authService.CurrentLogin;
+
+        if (currentLogin == null) {
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
         var handler = new JwtSecurityTokenHandler();
-        var jwtSecurityToken = handler.ReadJwtToken(_authService.CurrentLogin!.Token);
+        var jwtSecurityToken = handler.ReadJwtToken(currentLogin.Token);
 
         var claimsIdentity = new ClaimsIdentity(jwtSecurityToken.Claims, "GameServicesCloud authentication");
 

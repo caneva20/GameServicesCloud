@@ -1,21 +1,27 @@
-﻿using GameServicesCloud.UI.HttpsClients;
+﻿using Blazored.LocalStorage;
+using GameServicesCloud.UI.HttpsClients;
 
 namespace GameServicesCloud.UI.Services.Auth;
 
 public interface IAuthService {
     Task Login(LoginRequest request);
-    LoginResult? CurrentLogin { get; }
+    Task<LoginResult?> CurrentLogin { get; }
     Task Logout();
     Task SendToken(string email);
 }
 
 public class AuthService : IAuthService {
     private readonly AccountsHttpClient _http;
+    private readonly ILocalStorageService _localStorage;
 
-    public LoginResult? CurrentLogin { get; private set; }
+    private LoginResult? _currentLogin;
+    private bool _initialized;
 
-    public AuthService(AccountsHttpClient http) {
+    public Task<LoginResult?> CurrentLogin => GetCurrentToken();
+
+    public AuthService(AccountsHttpClient http, ILocalStorageService localStorage) {
         _http = http;
+        _localStorage = localStorage;
     }
 
     public async Task SendToken(string email) {
@@ -25,19 +31,39 @@ public class AuthService : IAuthService {
     }
 
     public async Task Login(LoginRequest request) {
-        CurrentLogin = await _http.FinishLogin(request);
+        _currentLogin = await _http.FinishLogin(request);
+
+        await SaveTokenToStorage(_currentLogin);
     }
 
-    public Task Logout() {
-        CurrentLogin = null;
+    public async Task Logout() {
+        _currentLogin = null;
 
-        return Task.CompletedTask;
+        await SaveTokenToStorage(_currentLogin);
+    }
+
+    private async Task<LoginResult?> GetCurrentToken() {
+        if (!_initialized) {
+            _currentLogin = await LoadTokenFromStorage();
+
+            _initialized = true;
+        }
+
+        return _currentLogin;
+    }
+
+    private ValueTask<LoginResult?> LoadTokenFromStorage() {
+        return _localStorage.GetItemAsync<LoginResult?>("auth_token");
+    }
+
+    private async Task SaveTokenToStorage(LoginResult? result) {
+        await _localStorage.SetItemAsync("auth_token", result);
     }
 }
 
 public class LoginRequest {
-    public string Email { get; set; }
-    public string LoginToken { get; set; }
+    public string Email { get; set; } = null!;
+    public string LoginToken { get; set; } = null!;
 }
 
 public record LoginResult(string Token, DateTime ExpirationTime);
