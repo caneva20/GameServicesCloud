@@ -19,6 +19,8 @@ builder.Services.AddTransient<IUserTokenService, UserTokenService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IJwtService, JwtService>();
+builder.Services.AddTransient<IClaimService, ClaimService>();
+builder.Services.AddTransient<IUserClaimService, UserClaimService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

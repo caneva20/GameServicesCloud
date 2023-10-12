@@ -1,0 +1,33 @@
+﻿using GameServicesCloud.Data;
+
+namespace GameServicesCloud.Accounts;
+
+public class ClaimService : IClaimService {
+    private readonly IRepository<AccountClaim> _repository;
+
+    public ClaimService(IRepository<AccountClaim> repository) {
+        _repository = repository;
+    }
+
+    public Task<AccountClaim?> Find(long claimId) {
+        return _repository.Find(claimId);
+    }
+
+    public Task<List<AccountClaim>> FindAll() {
+        return _repository.FindAll();
+    }
+
+    public async Task<bool> Create(AccountClaim claim) {
+        if (await _repository.Exists(x => x.Name == claim.Name)) {
+            return false;
+        }
+
+        await _repository.Save(claim);
+
+        return true;
+    }
+
+    public Task Remove(AccountClaim claim) {
+        return _repository.Remove(claim);
+    }
+}
