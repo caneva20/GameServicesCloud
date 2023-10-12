@@ -8,4 +8,6 @@ public class User : IEntity {
     public bool IsActivated { get; set; }
     public DateTime? ActivatedAt { get; set; }
     public string ActivationCode { get; set; } = null!;
+
+    public ICollection<AccountClaim> Claims { get; set; } = new List<AccountClaim>();
 }

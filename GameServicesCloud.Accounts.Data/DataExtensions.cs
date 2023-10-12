@@ -11,6 +11,7 @@ public static class AccountDataExtensions {
             options.UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(AccountDataExtensions).Assembly.FullName));
         });
 
+        services.AddScoped<IRepository<User>, UserRepository>();
         services.AddScoped<IRepository<UserToken>, UserTokenRepository>();
     }
 }

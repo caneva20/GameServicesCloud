@@ -8,4 +8,8 @@ public class AccountsDbContext : DbContext {
 
     public AccountsDbContext(DbContextOptions<AccountsDbContext> options) : base(options) {
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        modelBuilder.Entity<User>().HasMany(x => x.Claims).WithMany();
+    }
 }
