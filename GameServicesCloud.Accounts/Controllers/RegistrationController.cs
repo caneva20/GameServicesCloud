@@ -1,9 +1,11 @@
 ﻿using GameServicesCloud.Accounts.Mapping;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameServicesCloud.Accounts.Controllers;
 
 [ApiController]
+[AllowAnonymous]
 [Route("[controller]")]
 public class RegistrationController : ControllerBase {
     private readonly ILogger<RegistrationController> _logger;
