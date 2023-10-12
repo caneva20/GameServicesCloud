@@ -25,7 +25,7 @@ public class JwtService : IJwtService {
         };
 
         var expirationTime = DateTime.UtcNow.AddMinutes(_options.ExpirationTimeInMinutes);
-        var token = new JwtSecurityToken(_options.Issuer, _options.Audience, claims, expirationTime, signingCredentials: signingCredentials);
+        var token = new JwtSecurityToken(_options.Issuer, _options.Audience, claims, expires: expirationTime, signingCredentials: signingCredentials);
 
         return new AuthToken {
             Token = new JwtSecurityTokenHandler().WriteToken(token),
