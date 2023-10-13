@@ -1,6 +1,7 @@
 using System.Text;
 using GameServicesCloud;
 using GameServicesCloud.Accounts;
+using GameServicesCloud.Accounts.StartupSetup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -93,5 +94,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+await app.SetupClaims();
 
 app.Run();
