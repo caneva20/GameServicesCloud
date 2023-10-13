@@ -1,5 +1,5 @@
 ﻿namespace GameServicesCloud.Accounts;
 
 public interface IJwtService {
-    AuthToken GenerateToken(long userId, string userEmail);
+    AuthToken GenerateToken(User user);
 }

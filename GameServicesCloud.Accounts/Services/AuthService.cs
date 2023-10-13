@@ -44,7 +44,7 @@ public class AuthService : IAuthService {
 
         await _userTokenService.Delete(userToken);
 
-        return _jwtService.GenerateToken(user.Id, user.Email);
+        return _jwtService.GenerateToken(user);
     }
 
     private void SendEmail(User user, UserToken token) {

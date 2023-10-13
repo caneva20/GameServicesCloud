@@ -14,15 +14,16 @@ public class JwtService : IJwtService {
         _options = options.Value;
     }
 
-    public AuthToken GenerateToken(long userId, string userEmail) {
+    public AuthToken GenerateToken(User user) {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var claims = new List<Claim> {
-            new(ClaimTypes.NameIdentifier, userId.ToString()),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(JwtRegisteredClaimNames.Email, userEmail)
+            new(JwtRegisteredClaimNames.Email, user.Email)
         };
+
+        claims.AddRange(user.Claims.Select(x => new Claim(x.Name, "true")));
 
         var expirationTime = DateTime.UtcNow.AddMinutes(_options.ExpirationTimeInMinutes);
         var token = new JwtSecurityToken(_options.Issuer, _options.Audience, claims, expires: expirationTime, signingCredentials: signingCredentials);
