@@ -6,3 +6,7 @@ public class UserDto {
 
     public ICollection<AccountClaimDto> Claims { get; set; } = new List<AccountClaimDto>();
 }
+
+public class CreateUserDto {
+    public string Email { get; set; } = null!;
+}

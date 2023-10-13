@@ -24,7 +24,7 @@ public class RegistrationController : ControllerBase {
     }
 
     [HttpPost]
-    public async Task<ActionResult> Register([FromBody] UserDto userDto) {
+    public async Task<ActionResult> Register([FromBody] CreateUserDto userDto) {
         var user = userDto.ToEntity();
 
         var registeredUser = await _userService.RegisterUser(user);
