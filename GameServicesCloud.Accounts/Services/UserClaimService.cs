@@ -19,6 +19,10 @@ public class UserClaimService : IUserClaimService {
         return await _claimService.FindAll(Claims.DefaultClaims);
     }
 
+    public async Task<IEnumerable<AccountClaim>> GetAllClaims() {
+        return await _claimService.FindAll(Claims.AllClaims);
+    }
+
     public async Task AddClaim(AccountClaim claim, User user) {
         if (user.Claims.Contains(claim)) {
             return;
