@@ -19,6 +19,7 @@ public class UserClaimController : ControllerBase {
     }
 
     [HttpGet]
+    [Authorize(Claims.Account.UserClaim.Read)]
     public async Task<ActionResult<IEnumerable<AccountClaimDto>>> GetClaims(long userId) {
         var user = await _userService.Find(userId);
 
@@ -30,6 +31,7 @@ public class UserClaimController : ControllerBase {
     }
 
     [HttpPost("{claimId:long}")]
+    [Authorize(Claims.Account.UserClaim.Create)]
     public async Task<ActionResult> AddClaim(long userId, long claimId) {
         var user = await _userService.Find(userId);
 
@@ -49,6 +51,7 @@ public class UserClaimController : ControllerBase {
     }
 
     [HttpDelete("{claimId:long}")]
+    [Authorize(Claims.Account.UserClaim.Delete)]
     public async Task<ActionResult> RemoveClaim(long userId, long claimId) {
         var user = await _userService.Find(userId);
 
