@@ -15,6 +15,7 @@ builder.Services.Configure<UserTokenOptions>(builder.Configuration.GetSection("U
 builder.Services.Configure<AccountActivationOptions>(builder.Configuration.GetSection("AccountActivation"));
 builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Auth"));
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JWT"));
+builder.Services.Configure<RootAdminOptions>(builder.Configuration.GetSection("RootAdmin"));
 
 builder.Services.AddTransient<IUserTokenService, UserTokenService>();
 builder.Services.AddTransient<IUserService, UserService>();
@@ -95,6 +96,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await app.SetupClaims();
+await app.Setup();
 
 app.Run();
