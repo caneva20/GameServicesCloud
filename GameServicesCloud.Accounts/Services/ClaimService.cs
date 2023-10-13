@@ -13,6 +13,14 @@ public class ClaimService : IClaimService {
         return _repository.Find(claimId);
     }
 
+    public Task<AccountClaim?> Find(string claimName) {
+        return _repository.Find(x => x.Name == claimName);
+    }
+
+    public Task<List<AccountClaim>> FindAll(IEnumerable<string> claimNames) {
+        return _repository.FindAll(x => claimNames.Contains(x.Name));
+    }
+
     public Task<List<AccountClaim>> FindAll() {
         return _repository.FindAll();
     }
