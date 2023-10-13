@@ -64,6 +64,8 @@ builder.Services.AddAuthentication(options => {
     };
 });
 
+builder.Services.AddAuthorization(options => options.AddPolicies());
+
 builder.Services.AddCors(options => {
     var corsOptions = builder.Configuration.GetSection("Cors").Get<CorsOptions>()!;
 
