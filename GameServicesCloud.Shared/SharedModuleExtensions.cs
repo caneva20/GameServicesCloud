@@ -11,6 +11,7 @@ public static class SharedModuleExtensions {
         services.Configure<MailTemplateOptions>(templateOptions);
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped(typeof(IPaginator<>), typeof(Paginator<>));
         services.AddSingleton<IMailTemplateService, MailTemplateService>();
         services.AddSingleton<IMailService, MailService>();
         services.AddSingleton<ITokenService, TokenService>();
