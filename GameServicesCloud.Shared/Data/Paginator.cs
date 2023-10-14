@@ -11,7 +11,7 @@ public class Paginator<T> : IPaginator<T> where T : IEntity {
     }
 
     public virtual Task<List<T>> List(int page, int pageSize, Expression<Func<T, bool>> predicate) {
-        return _repository.Query(TrackingBehaviour.NoTracking).Where(predicate).Skip(page * pageSize).Take(pageSize).ToListAsync();
+        return _repository.Query(TrackingBehaviour.NoTracking).Where(predicate).OrderBy(x => x.Id).Skip(page * pageSize).Take(pageSize).ToListAsync();
     }
 
     public virtual Task<int> Count(Expression<Func<T, bool>> predicate) {
