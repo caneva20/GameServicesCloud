@@ -7,7 +7,7 @@ public class UserRepository : Repository<User> {
     public UserRepository(DbContext context) : base(context) {
     }
 
-    protected override IQueryable<User> Query(TrackingBehaviour behaviour) {
+    public override IQueryable<User> Query(TrackingBehaviour behaviour) {
         return base.Query(behaviour).Include(x => x.Claims);
     }
 }

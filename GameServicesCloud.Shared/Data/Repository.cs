@@ -74,7 +74,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity {
         await _context.SaveChangesAsync();
     }
 
-    protected virtual IQueryable<T> Query(TrackingBehaviour behaviour) {
+    public virtual IQueryable<T> Query(TrackingBehaviour behaviour) {
         return behaviour switch {
             TrackingBehaviour.Tracking => _context.Set<T>().AsTracking(),
             TrackingBehaviour.NoTracking => _context.Set<T>().AsNoTracking(),

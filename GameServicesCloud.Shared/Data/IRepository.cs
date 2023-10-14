@@ -26,4 +26,6 @@ public interface IRepository<T> where T : IEntity {
     Task Remove(T entity);
 
     Task RemoveAll(IEnumerable<T> entities);
+
+    IQueryable<T> Query(TrackingBehaviour behaviour);
 }

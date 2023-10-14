@@ -28,7 +28,7 @@ public class UserTokenRepository : Repository<UserToken> {
         return base.SaveAll(userTokens);
     }
 
-    protected override IQueryable<UserToken> Query(TrackingBehaviour behaviour) {
+    public override IQueryable<UserToken> Query(TrackingBehaviour behaviour) {
         return base.Query(behaviour).Where(x => x.ExpirationDate > DateTime.UtcNow);
     }
 }
