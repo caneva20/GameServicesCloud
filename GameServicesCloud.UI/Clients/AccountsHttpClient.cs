@@ -2,7 +2,7 @@
 using System.Net.Http.Json;
 using GameServicesCloud.UI.Services.Auth;
 
-namespace GameServicesCloud.UI.HttpsClients;
+namespace GameServicesCloud.UI.Clients;
 
 public class AccountsHttpClient {
     private readonly HttpClient _http;
