@@ -50,7 +50,7 @@
     private bool _drawerOpen = true;
     private bool _darkMode = true;
 
-    private string _userName;
+    private string _userName = "";
 
     protected override async Task OnInitializedAsync() {
         _userName = await GetUserName() ?? "";
