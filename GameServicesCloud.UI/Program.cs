@@ -22,6 +22,9 @@ builder.Services.AddTransient<AuthHeaderHandler>();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddHttpClient<AccountsHttpClient>(client => client.BaseAddress = new Uri(builder.Configuration["Backend:AccountsBaseUrl"]!));
+builder.Services.AddRefitClient<IUserApi>()
+    .AddHttpMessageHandler<AuthHeaderHandler>()
+    .ConfigureHttpClient(client => client.BaseAddress = new Uri(builder.Configuration["Backend:AccountsBaseUrl"]!));
 
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 

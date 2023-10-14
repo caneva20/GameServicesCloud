@@ -1,0 +1,58 @@
+﻿@page "/management/users"
+@using GameServicesCloud.UI.Clients
+
+@inject IUserApi UserApi;
+
+<PageTitle>User management</PageTitle>
+
+<MudContainer Style="padding: 16px">
+    <MudText Typo="Typo.h4" Align="Align.Center">User management a</MudText>
+
+    <MudTable ServerData="LoadData" Hover="true" @ref="_table">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Users</MudText>
+            <MudSpacer/>
+            <MudTextField T="string" ValueChanged="UpdateSearch" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+
+        <HeaderContent>
+            <MudTh>#</MudTh>
+            <MudTh>Email</MudTh>
+            <MudTh>Claims</MudTh>
+            <MudTh>Actions</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="#">@context.Id</MudTd>
+            <MudTd DataLabel="Email">@context.Email</MudTd>
+            <MudTd DataLabel="Claims">@context.Claims.Count</MudTd>
+            <MudTd DataLabel="Actions">
+                <MudIconButton Icon="@Icons.Material.Filled.Settings" OnClick="() => ManageClaims(context)"/>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager/>
+        </PagerContent>
+    </MudTable>
+</MudContainer>
+
+@code {
+    private MudTable<User> _table = null!;
+
+    private string? _searchString;
+
+    private void ManageClaims(User user) {
+        Console.WriteLine("Manage claims");
+    }
+
+    private async Task<TableData<User>> LoadData(TableState state) {
+        var count = await UserApi.Count(_searchString ?? "");
+
+        return new TableData<User> { Items = await UserApi.FindAll(state.Page, state.PageSize, _searchString ?? ""), TotalItems = count };
+    }
+
+    private void UpdateSearch(string text) {
+        _searchString = text;
+        _table.ReloadServerData();
+    }
+
+}
