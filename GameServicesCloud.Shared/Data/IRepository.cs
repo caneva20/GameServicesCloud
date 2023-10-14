@@ -11,6 +11,8 @@ public interface IRepository<T> where T : IEntity {
 
     Task<T?> Find(long id, TrackingBehaviour behaviour = TrackingBehaviour.Tracking);
 
+    Task<int> Count(Expression<Func<T, bool>> predicate);
+
     Task<bool> Exists(Expression<Func<T, bool>> predicate);
 
     Task<bool> Exists(long id);

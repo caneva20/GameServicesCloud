@@ -18,6 +18,10 @@ public class Repository<T> : IRepository<T> where T : class, IEntity {
         return Query(behaviour).Where(predicate).ToListAsync();
     }
 
+    public virtual Task<int> Count(Expression<Func<T, bool>> predicate) {
+        return Query(TrackingBehaviour.NoTracking).CountAsync(predicate);
+    }
+
     public virtual Task<T?> Find(Expression<Func<T, bool>> predicate, TrackingBehaviour behaviour = TrackingBehaviour.Tracking) {
         return Query(behaviour).Where(predicate).SingleOrDefaultAsync();
     }
