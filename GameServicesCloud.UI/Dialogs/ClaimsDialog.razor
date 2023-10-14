@@ -1,0 +1,93 @@
+﻿@inject IClaimApi ClaimApi
+@inject IUserClaimApi UserClaimApi
+
+<MudDialog>
+    <DialogContent>
+        <MudTable T="AccountClaim" ServerData="LoadData" Hover="true" @ref="_table" Comparer="@AccountClaim.Comparer" Dense="true">
+            <ToolBarContent>
+                <MudTextField T="string" ValueChanged="UpdateSearch" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+
+            <HeaderContent>
+                <MudTh>Assigned</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>Actions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                @{ var hasClaim = User.Claims.Contains(context); }
+
+                <MudTd>
+                    <MudCheckBox Checked="@hasClaim" Disabled="true"/>
+                </MudTd>
+                <MudTd DataLabel="Email">
+                    <MudHighlighter Text="@context.Name" HighlightedText="@_searchString"/>
+                </MudTd>
+                <MudTd>
+                    <MudTooltip Text="Assign claim to user" Placement="Placement.Top">
+                        <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Primary" Disabled="@hasClaim" OnClick="@(() => AddClaim(context))"/>
+                    </MudTooltip>
+                    <MudTooltip Text="Remove claim from user" Placement="Placement.Top">
+                        <MudIconButton Icon="@Icons.Material.Filled.Remove" Color="Color.Secondary" Disabled="@(!hasClaim)" OnClick="@(() => RemoveClaim(context))"/>
+                    </MudTooltip>
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager/>
+            </PagerContent>
+        </MudTable>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="@Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance Dialog { get; set; } = null!;
+
+    private MudTable<AccountClaim> _table = null!;
+    private string? _searchString;
+
+    [Parameter]
+    public User User { get; set; } = null!;
+
+    private async Task<TableData<AccountClaim>> LoadData(TableState state) {
+        var count = await ClaimApi.Count(_searchString ?? "");
+
+        return new TableData<AccountClaim> { Items = await ClaimApi.FindAll(state.Page, state.PageSize, _searchString ?? ""), TotalItems = count };
+    }
+
+    private void Cancel() {
+        Dialog.Cancel();
+    }
+
+    private void Submit() {
+        Dialog.Close(DialogResult.Ok(true));
+    }
+
+    private void UpdateSearch(string text) {
+        _searchString = text;
+        _table.ReloadServerData();
+    }
+
+    private async Task AddClaim(AccountClaim claim) {
+        _table.Loading = true;
+
+        User.Claims.Add(claim);
+
+        await UserClaimApi.AddClaim(User.Id, claim.Id);
+        await _table.ReloadServerData();
+    }
+
+    private async Task RemoveClaim(AccountClaim claim) {
+        _table.Loading = true;
+
+        User.Claims.Remove(claim);
+
+        await UserClaimApi.RemoveClaim(User.Id, claim.Id);
+        await _table.ReloadServerData();
+    }
+
+}

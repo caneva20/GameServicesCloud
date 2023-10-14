@@ -1,7 +1,7 @@
 ﻿@page "/management/users"
-@using GameServicesCloud.UI.Clients
 
 @inject IUserApi UserApi;
+@inject IDialogService DialogService
 
 <PageTitle>User management</PageTitle>
 
@@ -26,7 +26,9 @@
             <MudTd DataLabel="Email">@context.Email</MudTd>
             <MudTd DataLabel="Claims">@context.Claims.Count</MudTd>
             <MudTd DataLabel="Actions">
-                <MudIconButton Icon="@Icons.Material.Filled.Settings" OnClick="() => ManageClaims(context)"/>
+                <MudTooltip Text="Manage claims" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Settings" OnClick="@(() => ManageClaims(context))"/>
+                </MudTooltip>
             </MudTd>
         </RowTemplate>
         <PagerContent>
@@ -40,8 +42,14 @@
 
     private string? _searchString;
 
-    private void ManageClaims(User user) {
-        Console.WriteLine("Manage claims");
+    private async Task ManageClaims(User user) {
+        var parameters = new DialogParameters<ClaimsDialog> { { x => x.User, user } };
+
+        var dialog = await DialogService.ShowAsync<ClaimsDialog>($"{user.Email}'s claims", parameters, new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium });
+
+        await dialog.Result;
+
+        await _table.ReloadServerData();
     }
 
     private async Task<TableData<User>> LoadData(TableState state) {
