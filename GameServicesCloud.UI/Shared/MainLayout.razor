@@ -4,39 +4,81 @@
 @inject NavigationManager Navigation
 @inject AuthStateProvider Auth
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+<MudThemeProvider @bind-IsDarkMode="_darkMode"/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
 
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay/>
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <AuthorizeView>
+            <Authorized>
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@DrawerToggle"/>
+            </Authorized>
+        </AuthorizeView>
 
-            <button class="btn btn-link ml-md-auto" @onclick="Logout">Logout</button>
-        </div>
+        <MudText Typo="Typo.h5" Class="ml-3">Game Services Cloud</MudText>
+        <MudSpacer/>
+        <AuthorizeView>
+            <Authorized>
+                <MudText>@_userName</MudText>
+                <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" Edge="Edge.End" OnClick="@Logout"/>
+            </Authorized>
+        </AuthorizeView>
+        <MudIconButton Icon="@ThemeIcon" Color="Color.Inherit" Edge="Edge.End" OnClick="@ThemeToggle"/>
+    </MudAppBar>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+    <AuthorizeView>
+        <Authorized>
+            <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+                <NavMenu/>
+            </MudDrawer>
+        </Authorized>
+    </AuthorizeView>
+
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
 
 @code {
 
     [CascadingParameter]
-    public Task<AuthenticationState> AuthenticationState { get; set; }
+    public Task<AuthenticationState> AuthenticationState { get; set; } = null!;
+
+    private string ThemeIcon => _darkMode ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.LightMode;
+
+    private bool _drawerOpen = true;
+    private bool _darkMode = true;
+
+    private string _userName;
+
+    protected override async Task OnInitializedAsync() {
+        _userName = await GetUserName() ?? "";
+    }
 
     protected override async Task OnParametersSetAsync() {
-        if (!(await AuthenticationState).User.Identity.IsAuthenticated) {
+        Console.WriteLine(Navigation.Uri);
+
+        if (!Navigation.Uri.EndsWith("/login") && (await AuthenticationState).User.Identity?.IsAuthenticated == false) {
             Navigation.NavigateTo("/login");
         }
+    }
+
+    private async Task<string?> GetUserName() {
+        return (await AuthenticationState).User.Identity?.Name;
     }
 
     private async Task Logout() {
         await Auth.Logout();
         Navigation.NavigateTo("/login");
+    }
+
+    private void DrawerToggle() {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private void ThemeToggle() {
+        _darkMode = !_darkMode;
     }
 
 }

@@ -1,5 +1,5 @@
 ﻿using Blazored.LocalStorage;
-using GameServicesCloud.UI.HttpsClients;
+using GameServicesCloud.UI.Clients;
 
 namespace GameServicesCloud.UI.Services.Auth;
 
@@ -60,10 +60,3 @@ public class AuthService : IAuthService {
         await _localStorage.SetItemAsync("auth_token", result);
     }
 }
-
-public class LoginRequest {
-    public string Email { get; set; } = null!;
-    public string LoginToken { get; set; } = null!;
-}
-
-public record LoginResult(string Token, DateTime ExpirationTime);
