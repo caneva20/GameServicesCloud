@@ -1,11 +1,9 @@
 ﻿using GameServicesCloud.Accounts.Mapping;
 using GameServicesCloud.Data;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameServicesCloud.Accounts.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class UserController : ControllerBase {
