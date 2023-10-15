@@ -1,4 +1,6 @@
 ﻿<MudNavMenu>
     <MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
-    <MudNavLink Href="/management/users" Match="NavLinkMatch.Prefix">User management</MudNavLink>
+    <MudNavGroup Title="Accounts" Expanded="true">
+        <MudNavLink Href="/account/claims" Match="NavLinkMatch.Prefix">Claims</MudNavLink>
+    </MudNavGroup>
 </MudNavMenu>
