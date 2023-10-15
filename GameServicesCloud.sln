@@ -1,14 +1,14 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.Accounts", "GameServicesCloud.Accounts\GameServicesCloud.Accounts.csproj", "{00405958-D20B-40EE-AA52-27A7DC3BA0FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServicesCloud.Accounts", "GameServicesCloud.Accounts\GameServicesCloud.Accounts.csproj", "{00405958-D20B-40EE-AA52-27A7DC3BA0FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.Accounts.Data", "GameServicesCloud.Accounts.Data\GameServicesCloud.Accounts.Data.csproj", "{D04BCE76-C4B4-4AF6-93F5-37868825C1D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServicesCloud.Accounts.Data", "GameServicesCloud.Accounts.Data\GameServicesCloud.Accounts.Data.csproj", "{D04BCE76-C4B4-4AF6-93F5-37868825C1D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.Shared", "GameServicesCloud.Shared\GameServicesCloud.Shared.csproj", "{CF217312-9BB7-4315-A043-46E17AEAEA5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServicesCloud.Shared", "GameServicesCloud.Shared\GameServicesCloud.Shared.csproj", "{CF217312-9BB7-4315-A043-46E17AEAEA5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.Shared.Abstractions", "GameServicesCloud.Shared.Abstractions\GameServicesCloud.Shared.Abstractions.csproj", "{9C39380D-2566-4B09-98B8-9B96E0D454A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServicesCloud.Shared.Abstractions", "GameServicesCloud.Shared.Abstractions\GameServicesCloud.Shared.Abstractions.csproj", "{9C39380D-2566-4B09-98B8-9B96E0D454A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.Accounts.Abstractions", "GameServicesCloud.Accounts.Abstractions\GameServicesCloud.Accounts.Abstractions.csproj", "{D31BBF24-19C5-4E14-A123-F44E85FC9B19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServicesCloud.Accounts.Abstractions", "GameServicesCloud.Accounts.Abstractions\GameServicesCloud.Accounts.Abstractions.csproj", "{D31BBF24-19C5-4E14-A123-F44E85FC9B19}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.UI", "GameServicesCloud.UI\GameServicesCloud.UI.csproj", "{874F2AF0-B2A5-4B62-8A21-08A00E0C5A2A}"
 EndProject

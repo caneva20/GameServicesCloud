@@ -1,36 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <UserSecretsId>b164bb08-40a3-4188-9f31-4242c8e3a785</UserSecretsId>
     </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10"/>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5"/>
         <PackageReference Include="Riok.Mapperly" Version="3.2.0" PrivateAssets="all"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0-rc.2.23480.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0-rc.2.23480.2"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-rc.2.23480.1"/>
     </ItemGroup>
-
     <ItemGroup>
         <Content Include="..\.dockerignore">
             <Link>.dockerignore</Link>
         </Content>
     </ItemGroup>
-
     <ItemGroup>
         <ProjectReference Include="..\GameServicesCloud.Accounts.Abstractions\GameServicesCloud.Accounts.Abstractions.csproj"/>
         <ProjectReference Include="..\GameServicesCloud.Accounts.Data\GameServicesCloud.Accounts.Data.csproj"/>
         <ProjectReference Include="..\GameServicesCloud.Shared\GameServicesCloud.Shared.csproj"/>
     </ItemGroup>
-
     <ItemGroup>
         <None Update="HtmlTemplates\AccountActivation.html">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>

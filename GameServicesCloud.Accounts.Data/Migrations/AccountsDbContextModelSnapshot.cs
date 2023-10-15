@@ -34,7 +34,7 @@ namespace GameServicesCloud.Accounts.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AccountClaimUser");
+                    b.ToTable("AccountClaimUser", (string)null);
                 });
 
             modelBuilder.Entity("GameServicesCloud.Accounts.AccountClaim", b =>
@@ -54,7 +54,7 @@ namespace GameServicesCloud.Accounts.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountClaim");
+                    b.ToTable("AccountClaim", (string)null);
                 });
 
             modelBuilder.Entity("GameServicesCloud.Accounts.User", b =>
@@ -81,7 +81,7 @@ namespace GameServicesCloud.Accounts.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("GameServicesCloud.Accounts.UserToken", b =>
@@ -106,7 +106,7 @@ namespace GameServicesCloud.Accounts.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserTokens");
+                    b.ToTable("UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("AccountClaimUser", b =>
