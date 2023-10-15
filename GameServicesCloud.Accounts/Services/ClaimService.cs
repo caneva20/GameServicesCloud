@@ -38,4 +38,10 @@ public class ClaimService : IClaimService {
     public Task Remove(AccountClaim claim) {
         return _repository.Remove(claim);
     }
+
+    public Task SetDefault(AccountClaim claim, bool isDefault) {
+        claim.IsDefault = isDefault;
+
+        return _repository.Update(claim);
+    }
 }

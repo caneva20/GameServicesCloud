@@ -35,4 +35,17 @@ public class ClaimController : ControllerBase {
     public async Task<int> Count([FromQuery] string filter = "") {
         return await _paginator.Count(x => x.Name.Contains(filter));
     }
+
+    [HttpPut("{claimId:long}")]
+    public async Task<IActionResult> SetDefault(long claimId, [FromBody] bool isDefault) {
+        var claim = await _claimService.Find(claimId);
+
+        if (claim == null) {
+            return NotFound();
+        }
+
+        await _claimService.SetDefault(claim, isDefault);
+
+        return Ok();
+    }
 }

@@ -9,4 +9,7 @@ public interface IClaimApi {
 
     [Get("/claim/count")]
     Task<int> Count([Query] string filter);
+
+    [Put("/claim/{claimId}")]
+    Task SetDefault(long claimId, [Body] bool isDefault);
 }

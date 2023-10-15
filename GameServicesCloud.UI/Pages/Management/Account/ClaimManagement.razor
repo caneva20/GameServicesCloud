@@ -1,0 +1,57 @@
+﻿@page "/account/claims"
+
+@inject IClaimApi ClaimApi;
+
+<PageTitle>Claim management</PageTitle>
+
+<MudContainer Style="padding: 16px">
+    <MudText Typo="Typo.h4" Align="Align.Center">Claim management</MudText>
+    cc
+    <MudTable ServerData="LoadData" Hover="true" @ref="_table">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Users</MudText>
+            <MudSpacer/>
+            <MudTextField T="string" ValueChanged="UpdateSearch" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+
+        <HeaderContent>
+            <MudTh>IsDefault</MudTh>
+            <MudTh>Name</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="IsDefault">
+                <MudCheckBox T="bool" Checked="@context.IsDefault" CheckedChanged="(bool x) => ToggleDefaultState(x, context)"/>
+            </MudTd>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager/>
+        </PagerContent>
+    </MudTable>
+</MudContainer>
+
+@code {
+    private MudTable<AccountClaim> _table = null!;
+
+    private string? _searchString;
+
+    private async Task<TableData<AccountClaim>> LoadData(TableState state) {
+        var count = await ClaimApi.Count(_searchString ?? "");
+
+        return new TableData<AccountClaim> { Items = await ClaimApi.FindAll(state.Page, state.PageSize, _searchString ?? ""), TotalItems = count };
+    }
+
+    private void UpdateSearch(string text) {
+        _searchString = text;
+        _table.ReloadServerData();
+    }
+
+    private async Task ToggleDefaultState(bool isDefault, AccountClaim claim) {
+        _table.Loading = true;
+        claim.IsDefault = isDefault;
+
+        await ClaimApi.SetDefault(claim.Id, isDefault);
+        await _table.ReloadServerData();
+    }
+
+}

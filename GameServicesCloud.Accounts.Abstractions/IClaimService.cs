@@ -12,4 +12,6 @@ public interface IClaimService {
     Task<bool> Create(AccountClaim claim);
 
     Task Remove(AccountClaim claim);
+
+    Task SetDefault(AccountClaim claim, bool isDefault);
 }
