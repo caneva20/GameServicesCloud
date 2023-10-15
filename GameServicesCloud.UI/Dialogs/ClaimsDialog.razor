@@ -3,7 +3,7 @@
 
 <MudDialog>
     <DialogContent>
-        <MudTable T="AccountClaim" ServerData="LoadData" Hover="true" @ref="_table" Comparer="@AccountClaim.Comparer" Dense="true">
+        <MudTable T="AccountClaim" ServerData="LoadData" Hover="true" @ref="_table" Dense="true">
             <ToolBarContent>
                 <MudTextField T="string" ValueChanged="UpdateSearch" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
             </ToolBarContent>

@@ -1,31 +1,31 @@
 ﻿namespace GameServicesCloud.UI;
 
-public record AccountClaim(long Id, string Name) {
-    public static EqualityComparer Comparer = new();
+public class AccountClaim {
+    public long Id { get; init; }
+    public string Name { get; set; } = null!;
+    public bool IsDefault { get; set; }
 
-    public class EqualityComparer : IEqualityComparer<AccountClaim> {
-        public bool Equals(AccountClaim? x, AccountClaim? y) {
-            if (ReferenceEquals(x, y)) {
-                return true;
-            }
+    protected bool Equals(AccountClaim other) {
+        return Id == other.Id;
+    }
 
-            if (ReferenceEquals(x, null)) {
-                return false;
-            }
-
-            if (ReferenceEquals(y, null)) {
-                return false;
-            }
-
-            if (x.GetType() != y.GetType()) {
-                return false;
-            }
-
-            return x.Id == y.Id && x.Name == y.Name;
+    public override bool Equals(object? obj) {
+        if (ReferenceEquals(null, obj)) {
+            return false;
         }
 
-        public int GetHashCode(AccountClaim obj) {
-            return HashCode.Combine(obj.Id, obj.Name);
+        if (ReferenceEquals(this, obj)) {
+            return true;
         }
+
+        if (obj.GetType() != GetType()) {
+            return false;
+        }
+
+        return Equals((AccountClaim)obj);
+    }
+
+    public override int GetHashCode() {
+        return Id.GetHashCode();
     }
 }
