@@ -10,7 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServicesCloud.Shared.Ab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServicesCloud.Accounts.Abstractions", "GameServicesCloud.Accounts.Abstractions\GameServicesCloud.Accounts.Abstractions.csproj", "{D31BBF24-19C5-4E14-A123-F44E85FC9B19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServicesCloud.UI", "GameServicesCloud.UI\GameServicesCloud.UI.csproj", "{874F2AF0-B2A5-4B62-8A21-08A00E0C5A2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServicesCloud.UI", "GameServicesCloud.UI\GameServicesCloud.UI.csproj", "{874F2AF0-B2A5-4B62-8A21-08A00E0C5A2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
