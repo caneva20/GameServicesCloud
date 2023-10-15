@@ -16,11 +16,11 @@ public class UserClaimService : IUserClaimService {
     }
 
     public async Task<IEnumerable<AccountClaim>> GetDefaultClaims() {
-        return await _claimService.FindAll(Claims.DefaultClaims);
+        return await _claimService.FindAll();
     }
 
     public async Task<IEnumerable<AccountClaim>> GetAllClaims() {
-        return await _claimService.FindAll(Claims.AllClaims);
+        return await _claimService.FindAll();
     }
 
     public async Task AddClaim(AccountClaim claim, User user) {

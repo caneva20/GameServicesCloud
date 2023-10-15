@@ -5,10 +5,12 @@ namespace GameServicesCloud.Accounts.StartupSetup;
 public class ClaimSetup {
     private readonly ILogger<ClaimSetup> _logger;
     private readonly IRepository<AccountClaim> _repository;
+    private readonly IControllerClaimProviderService _controllerClaimProviderService;
 
-    public ClaimSetup(ILogger<ClaimSetup> logger, IRepository<AccountClaim> repository) {
+    public ClaimSetup(ILogger<ClaimSetup> logger, IRepository<AccountClaim> repository, IControllerClaimProviderService controllerClaimProviderService) {
         _logger = logger;
         _repository = repository;
+        _controllerClaimProviderService = controllerClaimProviderService;
     }
 
     public async Task Run() {
@@ -16,8 +18,9 @@ public class ClaimSetup {
 
         var registeredClaims = await _repository.FindAll();
 
-        var newClaims = Claims.AllClaims.Except(registeredClaims.Select(x => x.Name)).ToList();
-        var oldClaims = registeredClaims.Where(x => !Claims.AllClaims.Contains(x.Name)).ToList();
+        var claims = _controllerClaimProviderService.Claims.ToList();
+        var newClaims = claims.Except(registeredClaims.Select(x => x.Name)).ToList();
+        var oldClaims = registeredClaims.Where(x => !claims.Contains(x.Name)).ToList();
 
         _logger.LogInformation("Creating {Quantity} new claims: {@Claims}", newClaims.Count, newClaims);
         _logger.LogInformation("Removing {Quantity} old claims: {@Claims}", oldClaims.Count, oldClaims.Select(x => x.Name));

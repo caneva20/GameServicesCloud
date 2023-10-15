@@ -17,8 +17,8 @@ public class ClaimService : IClaimService {
         return _repository.Find(x => x.Name == claimName);
     }
 
-    public Task<List<AccountClaim>> FindAll(IEnumerable<string> claimNames) {
-        return _repository.FindAll(x => claimNames.Contains(x.Name));
+    public Task<List<AccountClaim>> FindDefaults() {
+        return _repository.FindAll(x => x.IsDefault);
     }
 
     public Task<List<AccountClaim>> FindAll() {
