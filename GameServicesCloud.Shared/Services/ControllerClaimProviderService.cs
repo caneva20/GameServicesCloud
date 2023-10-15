@@ -14,6 +14,7 @@ public partial class ControllerClaimProviderService : IControllerClaimProviderSe
     private string _prefix = null!;
 
     private readonly Dictionary<string, IReadOnlyList<string>> _controllerClaims = new();
+    private readonly List<string> _claimList = new();
 
     private static readonly Dictionary<string, string> SuffixMap = new() {
         { "GET", "read" },
@@ -28,8 +29,12 @@ public partial class ControllerClaimProviderService : IControllerClaimProviderSe
         _actionDescriptorCollection = actionDescriptorCollection;
     }
 
+    public IEnumerable<string> Claims => _claimList;
+
     public void Initialize(string prefix) {
         _controllerClaims.Clear();
+        _claimList.Clear();
+
         _prefix = prefix.ToLower();
 
         foreach (var descriptor in _actionDescriptorCollection.ActionDescriptors.Items) {
@@ -39,9 +44,11 @@ public partial class ControllerClaimProviderService : IControllerClaimProviderSe
 
             _controllerClaims.Add(descriptor.Id, BuildClaims(controllerDescriptor).ToArray());
         }
+
+        _claimList.AddRange(_controllerClaims.SelectMany(x => x.Value).Distinct());
     }
 
-    public IReadOnlyCollection<string> GetRequiredClaims(ActionDescriptor descriptor) {
+    public IEnumerable<string> GetRequiredClaims(ActionDescriptor descriptor) {
         return _controllerClaims[descriptor.Id];
     }
 

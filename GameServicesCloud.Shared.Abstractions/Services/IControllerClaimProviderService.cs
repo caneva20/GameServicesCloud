@@ -5,5 +5,7 @@ namespace GameServicesCloud;
 public interface IControllerClaimProviderService {
     void Initialize(string prefix);
 
-    IReadOnlyCollection<string> GetRequiredClaims(ActionDescriptor descriptor);
+    IEnumerable<string> GetRequiredClaims(ActionDescriptor descriptor);
+
+    IEnumerable<string> Claims { get; }
 }
