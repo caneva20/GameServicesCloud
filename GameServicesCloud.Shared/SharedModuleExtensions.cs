@@ -3,7 +3,6 @@ using GameServicesCloud.Mail;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace GameServicesCloud;
 
@@ -26,14 +25,6 @@ public static class SharedModuleExtensions {
 
         var options = new SharedServicesOptions();
         optionsBuilder(options);
-
-        var lifetime = scope.ServiceProvider.GetRequiredService<IHostApplicationLifetime>();
-
-        lifetime.ApplicationStarted.Register(() => PostStartupSetup(app, options));
-    }
-
-    private static void PostStartupSetup(IApplicationBuilder app, SharedServicesOptions options) {
-        using var scope = app.ApplicationServices.CreateScope();
 
         scope.ServiceProvider.GetRequiredService<IControllerClaimProviderService>().Initialize(options.ClaimPrefix);
     }
