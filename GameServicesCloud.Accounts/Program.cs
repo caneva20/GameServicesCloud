@@ -2,6 +2,7 @@ using System.Text;
 using GameServicesCloud;
 using GameServicesCloud.Accounts;
 using GameServicesCloud.Accounts.StartupSetup;
+using GameServicesCloud.Extensions;
 using GameServicesCloud.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -71,14 +72,7 @@ builder.Services.AddAuthentication(options => {
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddCors(options => {
-    var corsOptions = builder.Configuration.GetSection("Cors").Get<CorsOptions>()!;
-
-    options.AddPolicy("AllowSpecificOrigin",
-        policy => {
-            policy.WithOrigins(corsOptions.AllowedOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
-        });
-});
+builder.AddDefaultCors();
 
 var app = builder.Build();
 
@@ -91,7 +85,7 @@ if (app.Environment.IsDevelopment()) {
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors("AllowSpecificOrigin");
+app.UseDefaultCors();
 
 app.UseHttpsRedirection();
 
