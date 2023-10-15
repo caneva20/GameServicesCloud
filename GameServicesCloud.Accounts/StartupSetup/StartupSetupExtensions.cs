@@ -10,12 +10,10 @@ public static class StartupSetupExtensions {
 
         await ActivatorUtilities.CreateInstance<ClaimSetup>(scope.ServiceProvider).Run();
 
-        lifetime.ApplicationStarted.Register(async () => {
-            await PostStartupSetup(app);
-        });
+        lifetime.ApplicationStarted.Register(() => PostStartupSetup(app));
     }
 
-    private static async Task PostStartupSetup(IApplicationBuilder app) {
+    private static async void PostStartupSetup(IApplicationBuilder app) {
         using var scope = app.ApplicationServices.CreateScope();
 
         await ActivatorUtilities.CreateInstance<RootAdminSetup>(scope.ServiceProvider).Run(app.ServerFeatures.Get<IServerAddressesFeature>()!);
