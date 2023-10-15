@@ -2,6 +2,7 @@ using System.Text;
 using GameServicesCloud;
 using GameServicesCloud.Accounts;
 using GameServicesCloud.Accounts.StartupSetup;
+using GameServicesCloud.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -23,8 +24,9 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IJwtService, JwtService>();
 builder.Services.AddTransient<IClaimService, ClaimService>();
 builder.Services.AddTransient<IUserClaimService, UserClaimService>();
+builder.Services.AddSingleton<ControllerClaimProviderService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add<AuthorizationFilter>());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => {
     var securityScheme = new OpenApiSecurityScheme {
@@ -48,23 +50,24 @@ builder.Services.AddSwaggerGen(options => {
 });
 
 builder.Services.AddAuthentication(options => {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options => {
-    options.RequireHttpsMetadata = true;
-    options.SaveToken = true;
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options => {
+        options.RequireHttpsMetadata = true;
+        options.SaveToken = true;
 
-    options.IncludeErrorDetails = true;
+        options.IncludeErrorDetails = true;
 
-    options.TokenValidationParameters = new TokenValidationParameters {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"]!)),
-        ValidIssuer = builder.Configuration["JWT:Issuer"],
-        ValidateIssuer = true,
-        ValidAudience = builder.Configuration["JWT:Audience"],
-        ValidateAudience = true
-    };
-});
+        options.TokenValidationParameters = new TokenValidationParameters {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"]!)),
+            ValidIssuer = builder.Configuration["JWT:Issuer"],
+            ValidateIssuer = true,
+            ValidAudience = builder.Configuration["JWT:Audience"],
+            ValidateAudience = true
+        };
+    });
 
 builder.Services.AddAuthorization(options => options.AddPolicies());
 
@@ -95,6 +98,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseSharedServices(options => {
+    options.ClaimPrefix = "account";
+});
 
 await app.Setup();
 
