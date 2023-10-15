@@ -20,8 +20,7 @@ builder.Services.AddScoped<AuthenticationStateProvider>(services => services.Get
 builder.Services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddTransient<AuthHeaderHandler>();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddHttpClient<AccountsHttpClient>(client => client.BaseAddress = new Uri(builder.Configuration["Backend:AccountsBaseUrl"]!));
+builder.AddRefitBackendClient<IAuthApi>(false);
 builder.AddRefitBackendClient<IUserApi>();
 builder.AddRefitBackendClient<IClaimApi>();
 builder.AddRefitBackendClient<IUserClaimApi>();

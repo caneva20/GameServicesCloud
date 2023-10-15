@@ -1,5 +1,7 @@
-﻿using Blazored.LocalStorage;
+﻿using System.Net;
+using Blazored.LocalStorage;
 using GameServicesCloud.UI.Clients;
+using Refit;
 
 namespace GameServicesCloud.UI.Services.Auth;
 
@@ -11,7 +13,7 @@ public interface IAuthService {
 }
 
 public class AuthService : IAuthService {
-    private readonly AccountsHttpClient _http;
+    private readonly IAuthApi _authApi;
     private readonly ILocalStorageService _localStorage;
 
     private LoginResult? _currentLogin;
@@ -19,21 +21,31 @@ public class AuthService : IAuthService {
 
     public Task<LoginResult?> CurrentLogin => GetCurrentToken();
 
-    public AuthService(AccountsHttpClient http, ILocalStorageService localStorage) {
-        _http = http;
+    public AuthService(IAuthApi authApi, ILocalStorageService localStorage) {
+        _authApi = authApi;
         _localStorage = localStorage;
     }
 
     public async Task SendToken(string email) {
-        if (!await _http.StartLogin(email)) {
-            throw new Exception("Failed to generate new token");
+        try {
+            await _authApi.StartLogin(email);
+        } catch (ApiException e) {
+            throw new Exception(e.ReasonPhrase);
         }
     }
 
     public async Task Login(LoginRequest request) {
-        _currentLogin = await _http.FinishLogin(request);
+        try {
+            _currentLogin = await _authApi.FinishLogin(request);
 
-        await SaveTokenToStorage(_currentLogin);
+            await SaveTokenToStorage(_currentLogin);
+        } catch (ApiException e) {
+            if (e.StatusCode == HttpStatusCode.BadRequest) {
+                throw new Exception("Invalid token");
+            }
+
+            throw new Exception(e.ReasonPhrase);
+        }
     }
 
     public async Task Logout() {
