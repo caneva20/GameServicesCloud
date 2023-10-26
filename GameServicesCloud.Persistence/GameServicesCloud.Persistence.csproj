@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\GameServicesCloud.Persistence.Abstractions\GameServicesCloud.Persistence.Abstractions.csproj"/>
         <ProjectReference Include="..\GameServicesCloud.Persistence.Data\GameServicesCloud.Persistence.Data.csproj"/>
         <ProjectReference Include="..\GameServicesCloud.Shared\GameServicesCloud.Shared.csproj"/>
     </ItemGroup>
