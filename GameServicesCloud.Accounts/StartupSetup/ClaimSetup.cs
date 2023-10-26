@@ -18,16 +18,13 @@ public class ClaimSetup {
 
         var registeredClaims = await _repository.FindAll();
 
-        var claims = _controllerClaimProviderService.Claims.ToList();
+        var claims = _controllerClaimProviderService.Claims;
         var newClaims = claims.Except(registeredClaims.Select(x => x.Name)).ToList();
-        var oldClaims = registeredClaims.Where(x => !claims.Contains(x.Name)).ToList();
 
         _logger.LogInformation("Creating {Quantity} new claims: {@Claims}", newClaims.Count, newClaims);
-        _logger.LogInformation("Removing {Quantity} old claims: {@Claims}", oldClaims.Count, oldClaims.Select(x => x.Name));
 
         try {
             await _repository.SaveAll(newClaims.Select(x => new AccountClaim { Name = x }));
-            await _repository.RemoveAll(oldClaims);
         } catch (Exception e) {
             _logger.LogCritical(e, "Failed to update claim register!!");
         }
