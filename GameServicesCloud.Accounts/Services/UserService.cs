@@ -10,23 +10,21 @@ public class UserService : IUserService {
     private readonly IRepository<User> _userRepository;
     private readonly IMailService _mailService;
     private readonly IMailTemplateService _mailTemplateService;
-    private readonly IUserClaimService _userClaimService;
 
     private readonly AccountActivationOptions _activationOptions;
 
-    public UserService(ILogger<UserService> logger,
+    public UserService(
+        ILogger<UserService> logger,
         ITokenService tokenService,
         IOptions<AccountActivationOptions> verificationOptions,
         IRepository<User> userRepository,
         IMailService mailService,
-        IMailTemplateService mailTemplateService,
-        IUserClaimService userClaimService) {
+        IMailTemplateService mailTemplateService) {
         _logger = logger;
         _tokenService = tokenService;
         _userRepository = userRepository;
         _mailService = mailService;
         _mailTemplateService = mailTemplateService;
-        _userClaimService = userClaimService;
         _activationOptions = verificationOptions.Value;
     }
 
@@ -54,10 +52,6 @@ public class UserService : IUserService {
         user.ActivationCode = GenerateActivationCode();
 
         var newUser = await _userRepository.Save(user);
-
-        foreach (var claim in await _userClaimService.GetDefaultClaims()) {
-            await _userClaimService.AddClaim(claim, newUser);
-        }
 
         _logger.LogInformation("User {Email} registered with id {Id}", newUser.Email, newUser.Id);
 

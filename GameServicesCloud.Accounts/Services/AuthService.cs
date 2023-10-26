@@ -11,7 +11,8 @@ public class AuthService : IAuthService {
     private readonly IMailTemplateService _mailTemplateService;
     private readonly IJwtService _jwtService;
 
-    public AuthService(IUserTokenService userTokenService,
+    public AuthService(
+        IUserTokenService userTokenService,
         IMailService mailService,
         IMailTemplateService mailTemplateService,
         IOptions<AuthOptions> options,
@@ -44,7 +45,7 @@ public class AuthService : IAuthService {
 
         await _userTokenService.Delete(userToken);
 
-        return _jwtService.GenerateToken(user);
+        return await _jwtService.GenerateToken(user);
     }
 
     private void SendEmail(User user, UserToken token) {
