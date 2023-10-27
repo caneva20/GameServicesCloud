@@ -2,10 +2,10 @@
 using GameServicesCloud.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameServicesCloud.Accounts.Controllers;
+namespace GameServicesCloud.Accounts.Controllers.Administration;
 
 [ApiController]
-[Route("[controller]")]
+[Route("admin/[controller]")]
 public class ClaimController : ControllerBase {
     private readonly IPaginator<AccountClaim> _paginator;
     private readonly IClaimService _claimService;

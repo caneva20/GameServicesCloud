@@ -1,10 +1,10 @@
 ﻿using GameServicesCloud.Accounts.Mapping;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameServicesCloud.Accounts.Controllers;
+namespace GameServicesCloud.Accounts.Controllers.Administration;
 
 [ApiController]
-[Route("[controller]/{userId:long}")]
+[Route("admin/[controller]/{userId:long}")]
 public class UserClaimController : ControllerBase {
     private readonly IUserService _userService;
     private readonly IClaimService _claimService;

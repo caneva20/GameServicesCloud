@@ -4,12 +4,12 @@ namespace GameServicesCloud.UI.Clients;
 
 [Headers("Authorization: Bearer")]
 public interface IUserApi {
-    [Get("/user/{id}")]
+    [Get("/admin/user/{id}")]
     Task<User> Find(long id);
 
-    [Get("/user")]
+    [Get("/admin/user")]
     Task<IEnumerable<User>> FindAll([Query] int page, [Query] int pageSize, [Query] string filter);
 
-    [Get("/user/count")]
+    [Get("/admin/user/count")]
     Task<int> Count([Query] string filter);
 }
