@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GameServicesCloud.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GameServicesCloud.Persistence;
@@ -8,5 +9,7 @@ public static class PersistenceDataExtensions {
         services.AddDbContext<DbContext, PersistenceDbContext>(options => {
             options.UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(PersistenceDataExtensions).Assembly.FullName));
         });
+
+        services.AddScoped<IRepository<UserData>, UserDataRepository>();
     }
 }
