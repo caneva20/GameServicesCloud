@@ -1,0 +1,56 @@
+﻿@page "/persistence/user-data"
+@using GameServicesCloud.UI.Clients.Persistence
+
+@inject IUserDataApi UserDataApi
+@inject IDialogService DialogService
+
+<PageTitle>User data management</PageTitle>
+
+<MudContainer Style="padding: 16px">
+    <MudTable ServerData="LoadData" Hover="true" @ref="_table">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">User data management</MudText>
+            <MudSpacer/>
+            <MudTextField T="string" ValueChanged="UpdateSearch" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+
+        <HeaderContent>
+            <MudTh>UserId</MudTh>
+            <MudTh>Data size</MudTh>
+            <MudTh>Actions</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="#">@context.UserId</MudTd>
+            <MudTd DataLabel="Email">@(DataUnitConverter.Convert(context.DataSize))</MudTd>
+            <MudTd DataLabel="Actions">
+                <MudTooltip Text="Erase user data" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.DeleteForever" Color="Color.Error" OnClick="@(() => DeleteData(context))"/>
+                </MudTooltip>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager/>
+        </PagerContent>
+    </MudTable>
+</MudContainer>
+
+@code {
+    private MudTable<UserData> _table = null!;
+
+    private string? _searchString;
+
+    private async Task DeleteData(UserData userData) {
+    }
+
+    private async Task<TableData<UserData>> LoadData(TableState state) {
+        var count = await UserDataApi.Count(_searchString ?? "");
+
+        return new TableData<UserData> { Items = await UserDataApi.FindAll(state.Page, state.PageSize, _searchString ?? ""), TotalItems = count };
+    }
+
+    private void UpdateSearch(string text) {
+        _searchString = text;
+        _table.ReloadServerData();
+    }
+
+}
