@@ -63,6 +63,10 @@ public partial class ControllerClaimProviderService : IControllerClaimProviderSe
             action = action[1..];
         }
 
+        if (action.EndsWith('.')) {
+            action = action[..^1];
+        }
+
         var methods = descriptor.ActionConstraints?.OfType<HttpMethodActionConstraint>().SelectMany(x => x.HttpMethods).Distinct();
 
         if (methods == null) {
