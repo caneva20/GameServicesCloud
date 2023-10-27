@@ -46,6 +46,8 @@ public partial class ControllerClaimProviderService : IControllerClaimProviderSe
         }
 
         _claimList.AddRange(_controllerClaims.SelectMany(x => x.Value).Distinct());
+
+        _logger.LogInformation("Found {ClaimCount} claims for this api. Claims: {@Claims}", _claimList.Count, _claimList);
     }
 
     public IEnumerable<string> GetRequiredClaims(ActionDescriptor descriptor) {
