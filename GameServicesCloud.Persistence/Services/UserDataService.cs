@@ -1,12 +1,18 @@
 ﻿using GameServicesCloud.Data;
+using Microsoft.Extensions.Options;
 
 namespace GameServicesCloud.Persistence;
 
 public class UserDataService : IUserDataService {
-    private readonly IRepository<UserData> _userDataRepository;
+    private readonly ILogger<UserDataService> _logger;
 
-    public UserDataService(IRepository<UserData> userDataRepository) {
+    private readonly IRepository<UserData> _userDataRepository;
+    private readonly UserDataOptions _options;
+
+    public UserDataService(ILogger<UserDataService> logger, IRepository<UserData> userDataRepository, IOptions<UserDataOptions> options) {
         _userDataRepository = userDataRepository;
+        _logger = logger;
+        _options = options.Value;
     }
 
     public Task<UserData?> Find(long userId) {
@@ -23,9 +29,19 @@ public class UserDataService : IUserDataService {
         return await _userDataRepository.Save(new UserData { UserId = userId, Data = Array.Empty<byte>() });
     }
 
-    public async Task Save(UserData userData, byte[] data) {
+    public async Task<bool> Save(UserData userData, byte[] data) {
+        if (data.Length > _options.MaxByteSize) {
+            _logger.LogInformation("Failed to save user data of {Size} as it exceeds the limit of {CurrentLimit}",
+                DataUnitConverter.Convert(data.Length),
+                DataUnitConverter.Convert(_options.MaxByteSize));
+
+            return false;
+        }
+
         userData.Data = data;
 
         await _userDataRepository.Update(userData);
+
+        return true;
     }
 }

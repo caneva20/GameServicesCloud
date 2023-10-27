@@ -36,7 +36,9 @@ public class UserDataController : ControllerBase {
 
         var userData = await _userDataService.Find(userId) ?? await _userDataService.Create(userId);
 
-        await _userDataService.Save(userData, data);
+        if (!await _userDataService.Save(userData, data)) {
+            return BadRequest();
+        }
 
         return Ok();
     }

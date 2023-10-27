@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddData(builder.Configuration.GetConnectionString("DefaultConnection")!);
 builder.Services.AddSharedServices(builder.Configuration.GetSection("Mail"), builder.Configuration.GetSection("MailTemplates"));
 
+builder.Services.Configure<UserDataOptions>(builder.Configuration.GetSection("UserData"));
 builder.Services.AddTransient<IUserDataService, UserDataService>();
 
 builder.Services.AddControllers(options => options.Filters.Add<AuthorizationFilter>());
