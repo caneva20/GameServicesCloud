@@ -21,10 +21,10 @@ builder.Services.AddScoped<AuthenticationStateProvider>(services => services.Get
 builder.Services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddTransient<AuthHeaderHandler>();
 
-builder.AddRefitBackendClient<IAuthApi>(false);
-builder.AddRefitBackendClient<IUserApi>();
-builder.AddRefitBackendClient<IClaimApi>();
-builder.AddRefitBackendClient<IUserClaimApi>();
+builder.AddRefitBackendClient<IAuthApi>("Accounts", false);
+builder.AddRefitBackendClient<IUserApi>("Accounts");
+builder.AddRefitBackendClient<IClaimApi>("Accounts");
+builder.AddRefitBackendClient<IUserClaimApi>("Accounts");
 
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 
