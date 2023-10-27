@@ -1,14 +1,17 @@
 ﻿using System.Net;
 using Blazored.LocalStorage;
-using GameServicesCloud.UI.Clients;
+using GameServicesCloud.UI.Clients.Accounts;
 using Refit;
 
 namespace GameServicesCloud.UI.Services.Auth;
 
 public interface IAuthService {
     Task Login(LoginRequest request);
+
     Task<LoginResult?> CurrentLogin { get; }
+
     Task Logout();
+
     Task SendToken(string email);
 }
 

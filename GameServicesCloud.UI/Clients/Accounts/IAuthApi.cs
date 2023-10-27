@@ -1,6 +1,6 @@
 ﻿using Refit;
 
-namespace GameServicesCloud.UI.Clients;
+namespace GameServicesCloud.UI.Clients.Accounts;
 
 public interface IAuthApi {
     [Post("/auth")]

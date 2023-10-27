@@ -1,6 +1,7 @@
 using Blazored.LocalStorage;
 using GameServicesCloud.UI;
 using GameServicesCloud.UI.Clients;
+using GameServicesCloud.UI.Clients.Accounts;
 using GameServicesCloud.UI.Extensions;
 using GameServicesCloud.UI.Services.Auth;
 using Microsoft.AspNetCore.Components.Authorization;
