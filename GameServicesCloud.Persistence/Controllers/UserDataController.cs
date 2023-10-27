@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using GameServicesCloud.Persistence.Mapping;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameServicesCloud.Persistence.Controllers;
@@ -13,7 +14,7 @@ public class UserDataController : ControllerBase {
     }
 
     [HttpGet]
-    public async Task<ActionResult<byte[]>> Get() {
+    public async Task<ActionResult<UserDataDto>> Get() {
         if (!long.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out var userId)) {
             return Forbid();
         }
@@ -24,7 +25,7 @@ public class UserDataController : ControllerBase {
             return NotFound();
         }
 
-        return userData.Data;
+        return userData.ToDto();
     }
 
     [HttpPost]
