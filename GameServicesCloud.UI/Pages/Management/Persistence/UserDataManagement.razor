@@ -1,5 +1,6 @@
 ﻿@page "/persistence/user-data"
 @using GameServicesCloud.UI.Clients.Persistence
+@using System.Globalization
 
 @inject IUserDataApi UserDataApi
 @inject IDialogService DialogService
@@ -16,12 +17,14 @@
 
         <HeaderContent>
             <MudTh>UserId</MudTh>
-            <MudTh>Data size</MudTh>
+            <MudTh>Data stored</MudTh>
+            <MudTh>Last update</MudTh>
             <MudTh>Actions</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="#">@context.UserId</MudTd>
             <MudTd DataLabel="Email">@(DataUnitConverter.Convert(context.DataSize))</MudTd>
+            <MudTd DataLabel="Email">@context.UpdatedAt.ToString("d", CultureInfo.CurrentCulture)</MudTd>
             <MudTd DataLabel="Actions">
                 <MudTooltip Text="Erase user data" Placement="Placement.Top">
                     <MudIconButton Icon="@Icons.Material.Filled.DeleteForever" Color="Color.Error" OnClick="@(() => DeleteData(context))"/>
