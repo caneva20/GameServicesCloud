@@ -27,7 +27,7 @@
             <MudTd DataLabel="Email">@context.UpdatedAt.ToString("d", CultureInfo.CurrentCulture)</MudTd>
             <MudTd DataLabel="Actions">
                 <MudTooltip Text="Erase user data" Placement="Placement.Top">
-                    <MudIconButton Icon="@Icons.Material.Filled.DeleteForever" Color="Color.Error" OnClick="@(() => DeleteData(context))"/>
+                    <MudIconButton Icon="@Icons.Material.Filled.DeleteForever" Color="Color.Error" OnClick="@(() => ShowDeleteDialog(context))"/>
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
@@ -42,7 +42,17 @@
 
     private string? _searchString;
 
-    private async Task DeleteData(UserData userData) {
+    private async Task ShowDeleteDialog(UserData userData) {
+        var parameters = new DialogParameters<ConfirmationDialog> { { x => x.Title, "Confirm user data deletion (this is permanent)" } };
+
+        var dialog = await DialogService.ShowAsync<ConfirmationDialog>("Erase user data", parameters);
+        var result = await dialog.Result;
+
+        if (!result.Canceled) {
+            await UserDataApi.Delete(userData.UserId);
+
+            await _table.ReloadServerData();
+        }
     }
 
     private async Task<TableData<UserData>> LoadData(TableState state) {

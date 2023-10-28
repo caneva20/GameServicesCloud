@@ -8,4 +8,7 @@ public interface IUserDataApi {
 
     [Get("/admin/userdata/count")]
     Task<int> Count([Query] string filter);
+
+    [Delete("/admin/userdata/{userId}")]
+    Task Delete(long userId);
 }
