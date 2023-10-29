@@ -3,6 +3,7 @@ using GameServicesCloud.Ranking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameServicesCloud.Ranking.Migrations
 {
     [DbContext(typeof(RankingDbContext))]
-    partial class RankingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231029174248_AddUserScoreModel")]
+    partial class AddUserScoreModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
