@@ -1,10 +1,7 @@
-using System.Text;
 using GameServicesCloud;
 using GameServicesCloud.Extensions;
 using GameServicesCloud.Filters;
 using GameServicesCloud.Ranking;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,29 +11,8 @@ builder.Services.AddSharedServices();
 builder.Services.AddControllers(options => options.Filters.Add<AuthorizationFilter>());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDefaultSwaggerGen();
-
-builder.Services.AddAuthentication(options => {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options => {
-        options.RequireHttpsMetadata = true;
-        options.SaveToken = true;
-
-        options.IncludeErrorDetails = true;
-
-        options.TokenValidationParameters = new TokenValidationParameters {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"]!)),
-            ValidIssuer = builder.Configuration["JWT:Issuer"],
-            ValidateIssuer = true,
-            ValidAudience = builder.Configuration["JWT:Audience"],
-            ValidateAudience = true
-        };
-    });
-
+builder.Services.AddDefaultAuthentication(builder.Configuration.GetSection("JWT"));
 builder.Services.AddAuthorization();
-
 builder.AddDefaultCors();
 
 var app = builder.Build();
