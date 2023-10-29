@@ -1,0 +1,94 @@
+﻿@page "/ranking/leaderboard"
+@using Refit
+
+@inject ILeaderboardApi LeaderboardApi
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+<PageTitle>Leaderboard management</PageTitle>
+
+<MudContainer Style="padding: 16px">
+    <MudTable ServerData="LoadData" Hover="true" @ref="_table">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Leaderboard management</MudText>
+            <MudSpacer/>
+            <MudTextField T="string" ValueChanged="UpdateSearch" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Scores</MudTh>
+            <MudTh>Actions</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="#">@context.Name</MudTd>
+            <MudTd DataLabel="Email">@context.Scores</MudTd>
+            <MudTd DataLabel="Actions" Style="text-align: right; width: 15%">
+                <MudTooltip Text="Show leaderboard" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.FormatListNumbered" OnClick="@(() => ShowDeleteDialog(context))"/>
+                </MudTooltip>
+
+                <MudTooltip Text="Delete leaderboard" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.DeleteForever" Color="Color.Error" OnClick="@(() => ShowDeleteDialog(context))"/>
+                </MudTooltip>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager/>
+        </PagerContent>
+    </MudTable>
+
+    <MudFab Style="position: fixed; bottom: 20px; right: 20px" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" OnClick="@AddLeaderboard"/>
+</MudContainer>
+
+@code {
+    private MudTable<Leaderboard> _table = null!;
+
+    private string? _searchString;
+
+    private async Task<TableData<Leaderboard>> LoadData(TableState state) {
+        var count = await LeaderboardApi.Count(_searchString);
+
+        return new TableData<Leaderboard> { Items = await LeaderboardApi.FindAll(state.Page, state.PageSize, _searchString), TotalItems = count };
+    }
+
+    private void UpdateSearch(string text) {
+        _searchString = text;
+        _table.ReloadServerData();
+    }
+
+    private async Task ShowDeleteDialog(Leaderboard leaderboard) {
+        var parameters = new DialogParameters<ConfirmationDialog> { { x => x.Title, "Confirm leaderboard deletion (this is permanent)" } };
+
+        var dialog = await DialogService.ShowAsync<ConfirmationDialog>("Delete leaderboard", parameters);
+        var result = await dialog.Result;
+
+        if (!result.Canceled) {
+            await LeaderboardApi.Delete(leaderboard.Name);
+
+            await _table.ReloadServerData();
+        }
+    }
+
+    private async Task AddLeaderboard() {
+        var parameters = new DialogParameters<PromptDialog> { { x => x.Title, "Leaderboard name" } };
+
+        var dialog = await DialogService.ShowAsync<PromptDialog>("Create leaderboard", parameters, new DialogOptions { FullWidth = true, MaxWidth = MaxWidth.Small });
+        var result = await dialog.Result;
+
+        if (!result.Canceled) {
+            if (result.Data is not string name) {
+                return;
+            }
+
+            try {
+                await LeaderboardApi.Create(new CrateLeaderboardRequest(name));
+
+                await _table.ReloadServerData();
+            } catch (ApiException) {
+                Snackbar.Add("Failed to crate leaderboard", Severity.Error);
+            }
+        }
+    }
+
+}

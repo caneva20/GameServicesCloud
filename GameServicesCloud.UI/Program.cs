@@ -3,6 +3,7 @@ using GameServicesCloud.UI;
 using GameServicesCloud.UI.Clients;
 using GameServicesCloud.UI.Clients.Accounts;
 using GameServicesCloud.UI.Clients.Persistence;
+using GameServicesCloud.UI.Clients.Ranking;
 using GameServicesCloud.UI.Extensions;
 using GameServicesCloud.UI.Services.Auth;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -27,6 +28,7 @@ builder.AddRefitBackendClient<IUserApi>("Accounts");
 builder.AddRefitBackendClient<IClaimApi>("Accounts");
 builder.AddRefitBackendClient<IUserClaimApi>("Accounts");
 builder.AddRefitBackendClient<IUserDataApi>("Persistence");
+builder.AddRefitBackendClient<ILeaderboardApi>("Leaderboard");
 
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 
