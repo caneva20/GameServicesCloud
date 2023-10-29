@@ -2,6 +2,7 @@
 
 public class LeaderboardDto {
     public string Name { get; set; } = null!;
+    public int Scores { get; set; }
 }
 
 public class CreateLeaderBoardDto {
