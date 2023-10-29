@@ -19,6 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\GameServicesCloud.Ranking.Abstractions\GameServicesCloud.Ranking.Abstractions.csproj"/>
         <ProjectReference Include="..\GameServicesCloud.Ranking.Data\GameServicesCloud.Ranking.Data.csproj"/>
         <ProjectReference Include="..\GameServicesCloud.Shared\GameServicesCloud.Shared.csproj"/>
     </ItemGroup>

@@ -7,4 +7,8 @@
         <RootNamespace>GameServicesCloud.Ranking</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\GameServicesCloud.Ranking.Data\GameServicesCloud.Ranking.Data.csproj"/>
+    </ItemGroup>
+
 </Project>

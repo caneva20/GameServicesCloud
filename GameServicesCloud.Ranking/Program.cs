@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddData(builder.Configuration.GetConnectionString("DefaultConnection")!);
 builder.Services.AddSharedServices();
 
+builder.Services.AddScoped<ILeaderboardService, LeaderboardService>();
+
 builder.Services.AddControllers(options => options.Filters.Add<AuthorizationFilter>());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDefaultSwaggerGen();
