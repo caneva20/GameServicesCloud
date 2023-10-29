@@ -27,8 +27,4 @@
         <ProjectReference Include="..\GameServicesCloud.Shared\GameServicesCloud.Shared.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="HtmlTemplates\"/>
-    </ItemGroup>
-
 </Project>
