@@ -1,4 +1,6 @@
-﻿using GameServicesCloud.Accounts.Mapping;
+﻿using System.Linq.Expressions;
+using GameServicesCloud.Accounts.Mapping;
+using GameServicesCloud.Controllers;
 using GameServicesCloud.Data;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,13 +8,11 @@ namespace GameServicesCloud.Accounts.Controllers.Administration;
 
 [ApiController]
 [Route("admin/[controller]")]
-public class ClaimController : ControllerBase {
-    private readonly IPaginator<AccountClaim> _paginator;
+public class ClaimController : PaginationController<AccountClaim, AccountClaimDto> {
     private readonly IClaimService _claimService;
 
-    public ClaimController(IClaimService claimService, IPaginator<AccountClaim> paginator) {
+    public ClaimController(IClaimService claimService, IPaginator<AccountClaim> paginator) : base(paginator) {
         _claimService = claimService;
-        _paginator = paginator;
     }
 
     [HttpGet("{claimId:long}")]
@@ -26,16 +26,6 @@ public class ClaimController : ControllerBase {
         return claim.ToDto();
     }
 
-    [HttpGet]
-    public async Task<IEnumerable<AccountClaimDto>> FindAll([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string filter = "") {
-        return (await _paginator.List(page, pageSize, x => x.Name.Contains(filter))).ToDto();
-    }
-
-    [HttpGet("count")]
-    public async Task<int> Count([FromQuery] string filter = "") {
-        return await _paginator.Count(x => x.Name.Contains(filter));
-    }
-
     [HttpPut("{claimId:long}")]
     public async Task<IActionResult> SetDefault(long claimId, [FromBody] bool isDefault) {
         var claim = await _claimService.Find(claimId);
@@ -47,5 +37,13 @@ public class ClaimController : ControllerBase {
         await _claimService.SetDefault(claim, isDefault);
 
         return Ok();
+    }
+
+    protected override Expression<Func<AccountClaim, bool>> Filter(string filter) {
+        return x => x.Name.Contains(filter);
+    }
+
+    protected override AccountClaimDto ConvertToDto(AccountClaim entity) {
+        return entity.ToDto();
     }
 }
