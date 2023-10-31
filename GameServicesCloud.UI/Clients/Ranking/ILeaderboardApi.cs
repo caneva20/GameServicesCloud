@@ -12,6 +12,12 @@ public interface ILeaderboardApi {
     [Post("/admin/leaderboard")]
     Task Create(CrateLeaderboardRequest request);
 
-    [Delete("/admin/leaderboard?name={name}")]
-    Task Delete(string name);
+    [Delete("/admin/leaderboard")]
+    Task Delete([Query] string name);
+
+    [Get("/leaderboard/{name}/count")]
+    Task<int> GetLeaderboardCount(string name);
+
+    [Get("/leaderboard/{name}")]
+    Task<IEnumerable<LeaderboardPosition>> GetLeaderboard(string name, [Query] int page, [Query] int pageSize);
 }

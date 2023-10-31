@@ -1,0 +1,40 @@
+﻿@page "/ranking/rankings/{LeaderboardName}"
+
+@inject ILeaderboardApi LeaderboardApi
+
+<PageTitle>Leaderboard management</PageTitle>
+
+<MudContainer Style="padding: 16px">
+    <MudTable T="LeaderboardPosition" ServerData="LoadData" Hover="true">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">@LeaderboardName rankings</MudText>
+        </ToolBarContent>
+
+        <HeaderContent>
+            <MudTh>#</MudTh>
+            <MudTh>UserId</MudTh>
+            <MudTh>Score</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="#">@context.Position</MudTd>
+            <MudTd DataLabel="Email">@context.UserId</MudTd>
+            <MudTd DataLabel="Email">@context.Score</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager/>
+        </PagerContent>
+    </MudTable>
+</MudContainer>
+
+@code {
+
+    [Parameter]
+    public string LeaderboardName { get; set; } = null!;
+
+    private async Task<TableData<LeaderboardPosition>> LoadData(TableState state) {
+        var count = await LeaderboardApi.GetLeaderboardCount(LeaderboardName);
+
+        return new TableData<LeaderboardPosition> { Items = await LeaderboardApi.GetLeaderboard(LeaderboardName, state.Page, state.PageSize), TotalItems = count };
+    }
+
+}

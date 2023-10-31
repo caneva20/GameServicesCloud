@@ -15,7 +15,7 @@ public class LeaderboardController : ControllerBase {
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetLeaderboard(string name, int page = 0, int pageSize = 100) {
+    public async Task<ActionResult<IEnumerable<LeaderboardPosition>>> GetLeaderboard(string name, int page = 0, int pageSize = 100) {
         var leaderboard = await _leaderboardService.Find(name);
 
         if (leaderboard == null) {
@@ -25,6 +25,17 @@ public class LeaderboardController : ControllerBase {
         var positions = await _leaderboardService.GetLeaderboard(leaderboard, page, pageSize);
 
         return Ok(positions);
+    }
+
+    [HttpGet("count")]
+    public async Task<ActionResult<int>> GetLeaderboardCount(string name) {
+        var leaderboard = await _leaderboardService.Find(name);
+
+        if (leaderboard == null) {
+            return NotFound();
+        }
+
+        return await _leaderboardService.GetLeaderboardCount(leaderboard);
     }
 
     [HttpPost]

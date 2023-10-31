@@ -25,7 +25,9 @@
             <MudTd DataLabel="Email">@context.Scores</MudTd>
             <MudTd DataLabel="Actions" Style="text-align: right; width: 15%">
                 <MudTooltip Text="Show leaderboard" Placement="Placement.Top">
-                    <MudIconButton Icon="@Icons.Material.Filled.FormatListNumbered" OnClick="@(() => ShowDeleteDialog(context))"/>
+                    <MudLink Href="@($"/ranking/rankings/{context.Name}")">
+                        <MudIconButton Icon="@Icons.Material.Filled.FormatListNumbered"/>
+                    </MudLink>
                 </MudTooltip>
 
                 <MudTooltip Text="Delete leaderboard" Placement="Placement.Top">

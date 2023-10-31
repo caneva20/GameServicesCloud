@@ -46,6 +46,10 @@ public class LeaderboardService : ILeaderboardService {
         return userScores.Select((x, i) => new LeaderboardPosition(x.UserId, x.Score, i + 1 + page * pageSize));
     }
 
+    public async Task<int> GetLeaderboardCount(Leaderboard leaderboard) {
+        return await _userScoreRepository.Count(x => x.Leaderboard == leaderboard);
+    }
+
     public async Task SaveScore(Leaderboard leaderboard, long userId, double score) {
         var userScore = await _userScoreRepository.Find(x => x.Leaderboard == leaderboard && x.UserId == userId);
 

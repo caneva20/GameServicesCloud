@@ -10,4 +10,6 @@ public interface ILeaderboardService {
     Task SaveScore(Leaderboard leaderboard, long userId, double score);
 
     Task<IEnumerable<LeaderboardPosition>> GetLeaderboard(Leaderboard leaderboard, int page = 0, int pageSize = 100);
+
+    Task<int> GetLeaderboardCount(Leaderboard leaderboard);
 }
