@@ -13,5 +13,6 @@ public static partial class LeaderboardMapper {
         return dto;
     }
 
+    [MapperIgnoreSource(nameof(Leaderboard.Scores))]
     private static partial LeaderboardDto MapToDto(this Leaderboard entity);
 }
