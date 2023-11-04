@@ -1,6 +1,8 @@
 ﻿@page "/ranking/leaderboard"
 @using Refit
 
+@layout AuthorizedLayout
+
 @inject ILeaderboardApi LeaderboardApi
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
