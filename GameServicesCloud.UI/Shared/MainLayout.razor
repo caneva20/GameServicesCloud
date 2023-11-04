@@ -10,7 +10,7 @@
 
 <MudLayout>
     <MudAppBar Elevation="1">
-        <AuthorizeView>
+        <AuthorizeView Policy="DashboardAccess">
             <Authorized>
                 <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@DrawerToggle"/>
             </Authorized>
@@ -27,7 +27,7 @@
         <MudIconButton Icon="@ThemeIcon" Color="Color.Inherit" Edge="Edge.End" OnClick="@ThemeToggle"/>
     </MudAppBar>
 
-    <AuthorizeView>
+    <AuthorizeView Policy="DashboardAccess">
         <Authorized>
             <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
                 <NavMenu/>
@@ -45,6 +45,8 @@
     [CascadingParameter]
     public Task<AuthenticationState> AuthenticationState { get; set; } = null!;
 
+    private AuthenticationState? _authState;
+
     private string ThemeIcon => _darkMode ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.LightMode;
 
     private bool _drawerOpen = true;
@@ -53,19 +55,15 @@
     private string _userName = "";
 
     protected override async Task OnInitializedAsync() {
-        _userName = await GetUserName() ?? "";
+        _authState = await AuthenticationState;
     }
 
-    protected override async Task OnParametersSetAsync() {
-        Console.WriteLine(Navigation.Uri);
+    protected override void OnParametersSet() {
+        _userName = _authState?.User.Identity?.Name ?? "";
 
-        if (!Navigation.Uri.EndsWith("/login") && (await AuthenticationState).User.Identity?.IsAuthenticated == false) {
+        if (!Navigation.Uri.EndsWith("/login") && _authState?.User.Identity?.IsAuthenticated == false) {
             Navigation.NavigateTo("/login");
         }
-    }
-
-    private async Task<string?> GetUserName() {
-        return (await AuthenticationState).User.Identity?.Name;
     }
 
     private async Task Logout() {

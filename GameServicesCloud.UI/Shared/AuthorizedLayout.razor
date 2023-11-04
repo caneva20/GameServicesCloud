@@ -1,0 +1,33 @@
+﻿@using GameServicesCloud.UI.Services.Auth
+@inherits MainLayout
+
+@layout MainLayout
+
+@inject NavigationManager Navigation
+@inject AuthStateProvider Auth
+
+<AuthorizeView Policy="DashboardAccess">
+    <Authorized>
+        @Body
+    </Authorized>
+
+    <NotAuthorized>
+        <MudCard Style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
+            <MudText Typo="Typo.h3" Align="Align.Center">
+                Sorry, but you don't have access to this resource
+            </MudText>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@Logout">
+                Logout
+            </MudButton>
+        </MudCard>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    private async Task Logout() {
+        await Auth.Logout();
+        Navigation.NavigateTo("/login");
+    }
+
+}

@@ -17,7 +17,12 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddMudServices();
 builder.Services.AddOptions();
-builder.Services.AddAuthorizationCore();
+builder.Services.AddAuthorizationCore(options => {
+    options.AddPolicy("DashboardAccess",
+        policy => {
+            policy.RequireClaim(builder.Configuration["Auth:DashboardAccessClaim"]!);
+        });
+});
 builder.Services.AddScoped<AuthStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(services => services.GetRequiredService<AuthStateProvider>());
 builder.Services.AddSingleton<IAuthService, AuthService>();
