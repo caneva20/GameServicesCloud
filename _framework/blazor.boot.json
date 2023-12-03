@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "GameServicesCloud.UI",
   "resources": {
-    "hash": "sha256-VDtfeGqsVzyRhoclaigXAwqFOqVFsKeCxs5dVL+Uq68=",
+    "hash": "sha256-b/kJcJKNWldE55uxrsNmkDlIqSnBDnaiDN3/d/MVs5Q=",
     "jsModuleNative": {
       "dotnet.native.8.0.0.45ykigla5r.js": "sha256-LjLDIz9+J7uuiwMlQ4HbNx2BnSpphOtO2MwkoI28vdI="
     },
@@ -18,7 +18,7 @@
     },
     "assembly": {
       "Blazored.LocalStorage.wasm": "sha256-xHBGFCMjDjvvTwtMvgaMBNmQk9JdVhGmws2/GMZlxrI=",
-      "GameServicesCloud.UI.wasm": "sha256-BeE4pnP9jRZvY/fA8BR/PEJgzef4TZFryUM06TPciaI=",
+      "GameServicesCloud.UI.wasm": "sha256-FegKgB/rdc43QHyJMIWU17WmaASBkAzGTt+q6q2Q05s=",
       "Microsoft.AspNetCore.Authorization.wasm": "sha256-Zjp1s+SvLxUQSYk+CjY4XiLgQ7qFaWtZdRYmoC6v6G4=",
       "Microsoft.AspNetCore.Components.Authorization.wasm": "sha256-seJ88j3cjH1lm9+buSbevyzsezIEnNA4xXw9ag/EG7I=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-eMU865AzrQsp9UlT+D+BjSYqg58Vzxo+RoBJOJctcbg=",
